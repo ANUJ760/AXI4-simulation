@@ -162,14 +162,16 @@ class timer_full_sequence extends timer_core_sequence;
     `uvm_info("SCENARIO", "randomized_stalls", UVM_LOW)
     for (int unsigned index = 0; index < 96; index++) begin
       axi_txn item;
+      int solved;
       item = axi_txn::type_id::create("constrained_pair");
       start_item(item);
       item.operation = AXI_DUPLEX;
-      if (!item.randomize() with {
+      solved = item.randomize() with {
         address == ADDR_PERIOD;
         read_address inside {ADDR_CONTROL, ADDR_PERIOD, ADDR_COUNT, ADDR_STATUS,
                              ADDR_ID, 32'h14, 32'h1};
-      }) `uvm_fatal("RANDOMIZE", "Constrained item randomization failed")
+      };
+      if (solved == 0) `uvm_fatal("RANDOMIZE", "Constrained item randomization failed")
       finish_item(item);
       issued_writes++; issued_reads++;
       if (index % 16 == 0) begin
