@@ -50,7 +50,7 @@ def main():
         shutil.move(str(packages[0].parent.parent), target)
         staging.rmdir()
     version = target / "src/base/uvm_version.svh"
-    if f'UVM:{PINS["uvm"]["version"]}' not in version.read_text():
+    if f'"Accellera:1800.2:UVM:{PINS["uvm"]["version"]}"' not in version.read_text():
         raise SystemExit("BLOCKED: extracted UVM library has wrong version")
     print(f"Verified Verilator {actual}; UVM archive SHA256 {digest}")
     return 0

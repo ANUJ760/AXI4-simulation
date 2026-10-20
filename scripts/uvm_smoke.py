@@ -32,7 +32,7 @@ def main():
         return 1
     version_file = uvm / "base/uvm_version.svh"
     expected_uvm = f'UVM:{PINS["uvm"]["version"]}'
-    if not version_file.is_file() or expected_uvm not in version_file.read_text():
+    if not version_file.is_file() or f'"Accellera:1800.2:{expected_uvm}"' not in version_file.read_text():
         print(f"BLOCKED: UVM_HOME must contain pinned {expected_uvm}")
         return 1
     (build / "versions.log").write_text(
