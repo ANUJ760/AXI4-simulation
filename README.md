@@ -3,7 +3,8 @@
 Implementation follows `AXI4_Lite_UVM_Agent_Guide_REPAIRED.docx`.
 The current deliverable is **Phase 0: the real UVM toolchain gate**, as required
 by the guide §18. The timer RTL and reusable verification agent are planned
-for subsequent gates.
+for subsequent gates. Phase 0 passed locally with seed 42; see the actual
+results report for logs and the two documented UVM warnings.
 
 ```sh
 make packages
