@@ -1,6 +1,0 @@
-$ make lint
-python3 scripts/rtl_check.py lint --seed 42
-$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --lint-only --Wall rtl/axi4lite_timer_pkg.sv rtl/axi4lite_timer.sv --top-module axi4lite_timer
-exit=0; log=build/rtl/42/lint.log
-
-EXIT_STATUS=0

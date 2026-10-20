@@ -1,6 +1,0 @@
-$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --lint-only --Wall rtl/axi4lite_timer_pkg.sv rtl/axi4lite_timer.sv --top-module axi4lite_timer
-- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev v5.052
-- Verilator: Built from 0.058 MB sources in 3 modules, into 0.039 MB in 3 C++ files needing 0.000 MB
-- Verilator: Walltime 0.009 s (elab=0.001, cvt=0.004, bld=0.000); cpu 0.008 s on 1 threads; allocated 16.168 MB
-
-EXIT_STATUS=0

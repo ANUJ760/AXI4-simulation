@@ -1,5 +1,0 @@
-UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 575001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=58 held RDATA expected=578519a9 actual=738513a9
-UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 585001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=59 held RDATA expected=578519a9 actual=738513a9
-UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 595001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=60 accepted RDATA expected=578519a9 actual=738513a9
-UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 665001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=67 held RDATA expected=578519a9 actual=738513a9
-UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 675001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=68 held RDATA expected=578519a9 actual=738513a9

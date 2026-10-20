@@ -1,8 +1,0 @@
-$ make lint VERILATOR=/home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator UVM_HOME=/home/anuj/Downloads/AXI4-simulation/.tools/uvm/src SEED=42 JOBS=2
-make[1]: Entering directory '/tmp/axi4lite-clean-qfcuivd3/repo'
-python3 scripts/rtl_check.py lint --seed 42
-$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --lint-only --Wall rtl/axi4lite_timer_pkg.sv rtl/axi4lite_timer.sv --top-module axi4lite_timer
-exit=0; log=build/rtl/42/lint.log
-make[1]: Leaving directory '/tmp/axi4lite-clean-qfcuivd3/repo'
-
-EXIT_STATUS=0
