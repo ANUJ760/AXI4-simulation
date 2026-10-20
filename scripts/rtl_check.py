@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+from pathlib import Path
 import re
 
 from common import ROOT, run_logged
@@ -12,13 +13,22 @@ def main():
     parser.add_argument("mode", choices=("lint", "test"))
     parser.add_argument("--jobs", type=int, default=2)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--rtl-source", type=Path)
+    parser.add_argument("--variant", default="baseline")
     args = parser.parse_args()
     if args.jobs < 1 or not 1 <= args.seed <= 0xFFFFFFFF:
         parser.error("jobs must be positive; seed must be in 1..4294967295")
+    if not re.fullmatch(r"[A-Za-z_][A-Za-z_0-9-]*", args.variant):
+        parser.error("variant must be an identifier")
+    if args.rtl_source is not None and not args.rtl_source.is_file():
+        parser.error("RTL source does not exist")
     simulator = os.environ.get("VERILATOR", str(ROOT / ".tools/verilator/bin/verilator"))
     build = ROOT / "build/rtl" / str(args.seed)
+    if args.variant != "baseline":
+        build = ROOT / "build/rtl/variants" / args.variant / str(args.seed)
     build.mkdir(parents=True, exist_ok=True)
-    rtl = ["rtl/axi4lite_timer_pkg.sv", "rtl/axi4lite_timer.sv"]
+    rtl_source = str(args.rtl_source.resolve()) if args.rtl_source else "rtl/axi4lite_timer.sv"
+    rtl = ["rtl/axi4lite_timer_pkg.sv", rtl_source]
     if args.mode == "lint":
         return run_logged([simulator, "--lint-only", "--Wall", *rtl,
                            "--top-module", "axi4lite_timer"], build / "lint.log")
@@ -54,7 +64,7 @@ def main():
     passed = (code == 0 and match is not None and int(match[1]) == args.seed
               and waveform.is_file() and waveform.stat().st_size > 0)
     result = {"passed": passed, "seed": args.seed, "exit_status": code,
-              "stage": "complete",
+              "stage": "complete", "rtl_source": rtl_source, "variant": args.variant,
               "waveform": str(waveform.relative_to(ROOT))}
     if match:
         result.update(zip(("groups", "checks", "writes", "reads"),

@@ -1,11 +1,12 @@
 include config/tools.mk
 
 .DEFAULT_GOAL := help
-.PHONY: help env-check packages fetch-toolchain toolchain uvm-smoke lint test-rtl regress-rtl test-uvm test-uvm-negative regress coverage mutation-checks
+.PHONY: help env-check packages fetch-toolchain toolchain uvm-smoke lint test-rtl regress-rtl test-uvm test-uvm-negative regress coverage mutation-checks synth
 help:
 	@echo "Phase 0: env-check packages fetch-toolchain toolchain uvm-smoke"
 	@echo "Phase 1: lint test-rtl regress-rtl"
 	@echo "UVM: test-uvm test-uvm-negative regress coverage mutation-checks"
+	@echo "Quality: synth"
 	@echo "JOBS=$(JOBS) SEED=$(SEED); generated outputs: build/ and .tools/"
 env-check:
 	$(PYTHON) scripts/env_check.py
@@ -41,3 +42,6 @@ coverage:
 
 mutation-checks:
 	$(PYTHON) scripts/mutation_checks.py --seed $(SEED) --jobs $(JOBS)
+
+synth:
+	$(PYTHON) scripts/synth.py --seed $(SEED) --jobs $(JOBS)
