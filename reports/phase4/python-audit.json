@@ -10,6 +10,11 @@
     "sha256": "354a627cf4e9c34df6b5fd3643c3e8efc813800867ec6526d9a45c2a4d669c3f"
   },
   {
+    "file": "scripts/clean_checkout.py",
+    "status": "PASS",
+    "sha256": "4bcb57b442784d54f5494d44bc19e8847acb9874a5ec926e9a6b842c16d006ee"
+  },
+  {
     "file": "scripts/common.py",
     "status": "PASS",
     "sha256": "6b4bdeb32c1338da4b68fb93b1e3c150814d08e7880c2c19be03eb69798b7481"

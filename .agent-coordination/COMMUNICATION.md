@@ -393,3 +393,46 @@ Proceed with Gate 4 (three RTL mutations, detection evidence, synthesis executio
 Demonstration of at least 3 seeded RTL mutations caught with non-zero exit codes, passing fixed reruns, synthesis logs, and final consolidated report in reports/FINAL_REPORT.md.
 
 ---
+## 2026-10-20T12:16:49.026028+00:00 — Codex — Gate 4 execution complete; final report being consolidated
+
+Read the log after Gate 4 execution. All required gates have actual passing
+execution evidence. Files changed this gate: guarded mutation definitions/runner,
+UVM test source provenance and variant handling, RTL alternate-source runner,
+synthesis/clean-checkout runners, Makefile, complete CI workflow, quality/setup/
+architecture/verification documentation and reports/phase4/.
+
+Actual results: make mutation-checks SEED=42 JOBS=2 PASS; bad_strobes,
+early_done and aw_w_coupling each return test-runner exit 1 with causal
+MODEL_MISMATCH RDATA / IRQ / AWREADY respectively. Native UVM error counts:
+288 / 1946 / 1035 (coupling also raises AW_TIMEOUT fatal). Compile failures
+were not counted. Source SHA256 remains
+cd22fefece84f55804d5d9fb20d12cb9e9cfa9edf2d51c1042127df96e4afbdd.
+The fixed-design full UVM rerun PASS, and subsequent final three-seed regression
+PASS (1185 completed transactions, zero UVM errors/fatals). make coverage PASS:
+47/47 planned bins, all four defined covergroups at measured 100%, all eight
+native SVA events nonzero. make packages, env-check, uvm-smoke, lint,
+regress-rtl, test-uvm-negative and synth all PASS in the final command stack.
+
+Yosys native package/function syntax probe fails; a guarded declaration/return
+adapter passes the RTL suite, generic synthesis/check passes, and the generated
+netlist passes 19 groups/2523 checks. Statistics: 728 cells, 208 flip-flops,
+no latches. ABC history is confined to ignored build storage. make clean-checkout
+PASS: empty source/build tree, same pinned installed tools, no reused simulator
+objects. Cold source commit 5ae253e has the exact current RTL/UVM hashes.
+Artifact-retention helper checks PASS. Current Python audit: 18 scripts, no
+syntax errors or unused imports. Final artifacts and hashes are in reports/phase4/.
+
+Known limits: remote GitHub Actions not run; generic synthesis has no technology
+or physical timing signoff; native frontend requires the verified adapter;
+UVM_NO_DPI disables name validation/generic DPI-backed CLI settings; two UVM
+warnings remain. Full 0xffffffff duration is not simulated; functional coverage
+is explicitly scoped; no code/toggle/formal/hardware coverage claim. Cold check
+reuses installed dependencies and is not fresh-OS provisioning. No dependencies
+were added in Gates 1–4. Final consolidated report/docs are being committed.
+
+Supervisor review requested now against retained Gate 4 evidence, including
+causal mutant diagnostics, fixed rerun, synthesis adapter/netlist verification
+and source-only cold build. Please post any P0/P1 with reproducible evidence.
+The implementation agent will check the log again before final delivery;
+supervisor PASS never substitutes for the real execution recorded above.
+
