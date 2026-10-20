@@ -91,6 +91,40 @@ class axi_master_driver extends uvm_driver #(axi_txn);
     @(negedge vif.aclk); vif.rready = 0;
   endtask
 
+  task reset_with_pending(axi_txn item);
+    // Prepare intentional canceled traffic without any concurrent driver threads.
+    if (item.reset_stage inside {1, 2, 3, 4, 6}) begin
+      vif.awaddr = ADDR_PERIOD; vif.wdata = item.data; vif.wstrb = item.strobes;
+      vif.awvalid = item.reset_stage != 2;
+      vif.wvalid = item.reset_stage != 1;
+      @(posedge vif.aclk);
+      @(negedge vif.aclk);
+      if (item.reset_stage == 1) begin
+        // First AW was accepted. Offer a second AW while its buffer is full.
+        vif.awaddr = ADDR_ID;
+        repeat (3) @(negedge vif.aclk);
+      end else if (item.reset_stage == 2) begin
+        vif.wdata = ~item.data;
+        repeat (3) @(negedge vif.aclk);
+      end else begin
+        vif.awvalid = 0; vif.wvalid = 0;
+        if (item.reset_stage inside {4, 6}) begin
+          if (item.reset_stage == 6) begin
+            vif.araddr = ADDR_ID; vif.arvalid = 1;
+          end
+          @(negedge vif.aclk); // B (and optional R) is now held.
+        end
+      end
+    end else if (item.reset_stage == 5) begin
+      vif.araddr = ADDR_PERIOD; vif.arvalid = 1;
+      @(posedge vif.aclk);
+      @(negedge vif.aclk);
+      vif.araddr = ADDR_ID;
+      repeat (3) @(negedge vif.aclk);
+    end
+    reset_bus(item.idle_cycles);
+  endtask
+
   task run_phase(uvm_phase phase);
     axi_txn item;
     reset_bus(3);
@@ -108,7 +142,7 @@ class axi_master_driver extends uvm_driver #(axi_txn);
           join
         end
         AXI_IDLE: repeat (item.idle_cycles) @(posedge vif.aclk);
-        AXI_RESET: reset_bus(item.idle_cycles);
+        AXI_RESET: reset_with_pending(item);
         default: `uvm_fatal("BAD_OPERATION", "Unknown AXI operation")
       endcase
       seq_item_port.item_done();
@@ -123,7 +157,9 @@ class axi_monitor extends uvm_monitor;
   bit have_aw, have_w;
   word_t aw_address, w_data;
   strobe_t w_strobes;
-  longint unsigned edge_number = 0;
+  longint unsigned edge_number = 0, aw_edge = 0, w_edge = 0;
+  bit previous_bvalid, previous_rvalid;
+  word_t pending_read_address;
 
   function new(string name = "axi_monitor", uvm_component parent = null);
     super.new(name, parent);
@@ -144,6 +180,7 @@ class axi_monitor extends uvm_monitor;
       sample.edge_number = ++edge_number;
       sample.resetn = vif.aresetn;
       if (!vif.aresetn) begin
+        sample.reset_in_flight = have_aw || have_w || previous_bvalid || previous_rvalid;
         have_aw = 0; have_w = 0;
       end else begin
         // Pair the prior accepted halves BEFORE capturing this edge's inputs.
@@ -152,6 +189,7 @@ class axi_monitor extends uvm_monitor;
           sample.write_address = aw_address;
           sample.write_data = w_data;
           sample.write_strobes = w_strobes;
+          sample.write_order = aw_edge == w_edge ? 0 : (aw_edge < w_edge ? 1 : 2);
           have_aw = 0; have_w = 0;
         end
         sample.aw_fire = vif.awvalid && vif.awready;
@@ -159,17 +197,24 @@ class axi_monitor extends uvm_monitor;
         sample.ar_fire = vif.arvalid && vif.arready;
         sample.b_fire = vif.bvalid && vif.bready;
         sample.r_fire = vif.rvalid && vif.rready;
+        sample.aw_stall = vif.awvalid && !vif.awready;
+        sample.w_stall = vif.wvalid && !vif.wready;
+        sample.ar_stall = vif.arvalid && !vif.arready;
+        sample.b_stall = vif.bvalid && !vif.bready;
+        sample.r_stall = vif.rvalid && !vif.rready;
         sample.read_address = vif.araddr;
+        sample.completed_read_address = pending_read_address;
+        if (sample.ar_fire) pending_read_address = vif.araddr;
         sample.accepted_bresp = vif.bresp;
         sample.accepted_rresp = vif.rresp;
         sample.accepted_rdata = vif.rdata;
         if (sample.aw_fire) begin
           if (have_aw) `uvm_error("DUPLICATE_AW", "AW buffer accepted twice")
-          have_aw = 1; aw_address = vif.awaddr;
+          have_aw = 1; aw_address = vif.awaddr; aw_edge = edge_number;
         end
         if (sample.w_fire) begin
           if (have_w) `uvm_error("DUPLICATE_W", "W buffer accepted twice")
-          have_w = 1; w_data = vif.wdata; w_strobes = vif.wstrb;
+          have_w = 1; w_data = vif.wdata; w_strobes = vif.wstrb; w_edge = edge_number;
         end
       end
       #1ps;
@@ -178,6 +223,8 @@ class axi_monitor extends uvm_monitor;
       sample.post_bvalid = vif.bvalid; sample.post_bresp = vif.bresp;
       sample.post_rvalid = vif.rvalid; sample.post_rresp = vif.rresp;
       sample.post_rdata = vif.rdata; sample.post_irq = vif.irq;
+      previous_bvalid = sample.post_bvalid;
+      previous_rvalid = sample.post_rvalid;
       observations.write(sample);
     end
   endtask

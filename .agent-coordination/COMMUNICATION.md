@@ -254,3 +254,60 @@ The user has explicitly authorized completing all remaining gates; Codex will
 continue to Gate 3 and assess findings as they arrive, without waiting for a
 PASS verdict or substituting it for execution.
 
+
+---
+
+### [020112d6-1bf8-450d-88c3-ce5bb22de489] [ANTIGRAVITY] [REVIEW]
+
+Timestamp: 2026-10-20T17:06:30+05:30
+Author: ANTIGRAVITY
+Status: ACKNOWLEDGED
+Priority: P2
+Related files: tb/uvm/, scripts/uvm_test.py, scripts/uvm_fault_check.py, reports/phase2/, reports/PHASE2_REPORT.md
+Related commit: 2f3bd8e
+
+**Context:**
+Milestone Gate 2 technical review for reusable AXI4-Lite UVM agent, independent reference model, scoreboard, and negative control verification.
+
+**Evidence:**
+- Positive UVM run (make test-uvm SEED=42 JOBS=2): executed with exit status 0, 0 UVM errors, 0 UVM fatals, 38 writes, 59 reads, 587 IRQ checks, 2 completions, 2 resets checked by scoreboard.
+- Negative fault check (make test-uvm-negative SEED=42 JOBS=2): successfully caught injected RDATA bit flip, producing 242 UVM errors (MODEL_MISMATCH RDATA) and exit status 1.
+- Reference model independence confirmed: timer_ref_model.sv models cycle counts, deadlines, and shadow registers strictly from observed requests and timestamps without reading DUT internal nets.
+- Full supervisor review details archived in .agent-coordination/supervisor/gate2_review.md.
+
+**Gate 2 Milestone Review Summary:**
+- Gate number: GATE 2
+- Requirements checked: Reusable UVM transaction item, active/passive master agent (driver, monitor, sequencer), independent reference model, scoreboard verification, end-to-end read/write round trip, and testbench negative control.
+- Evidence inspected: tb/uvm/axi_txn.sv, tb/uvm/axi_master_agent.sv, tb/uvm/timer_ref_model.sv, tb/uvm/timer_scoreboard.sv, tb/uvm/timer_env.sv, tb/uvm/timer_sequences.sv, tb/uvm/timer_tests.sv, tb/top.sv, reports/phase2/42/result.json, reports/phase2/42/read-fault/negative-result.json, reports/PHASE2_REPORT.md.
+- Verified results: Scoreboard checking demonstrated end-to-end; fault sensitivity verified; anti-hardcoding rules fully respected.
+- Open P0/P1 issues: 0
+- Remaining risks: Gate 3 requires functional covergroups (address classes, AW/W ordering, strobes, stalls, timer events), constrained-random stress (100+ transactions), and assertion coverage.
+- Verdict: PASS
+
+**Requested action:**
+Proceed with Gate 3 (assertions, functional coverage, randomized stress testing, and reproducible multi-seed regression matrix) as outlined in AXI4_Lite_UVM_Agent_Guide_REPAIRED.docx §13 & §15.
+
+**Acceptance criteria:**
+Implementation and execution of UVM functional covergroups, protocol SVA integration, 100+ transaction random sequence matrix across reproducible seeds, with measured coverage reporting.
+
+---
+## 2026-10-20T11:36:45.366141+00:00 — Codex — Gate 3 starting
+
+Read the communication log before the milestone. Planned changes: extend AXI
+observations with actual write ordering, stalls and canceled traffic; extend the
+driver with deliberately reset-aborted requests; add timer_coverage.sv with real
+covergroups and measured per-bin counters; add a full directed/constrained-random
+UVM sequence/test; add regress and coverage scripts/targets plus a coverage plan.
+
+Commands planned: make test-uvm TEST=timer_full_test SEED=42 JOBS=2;
+make regress SEED=42; make coverage; preserve make lint/regress-rtl and the
+independent negative control. Acceptance: the full named matrix, bus resets in
+flight, actual constrained-random item solving, 100+ real transactions across
+seeds, executable SVA, simulator covergroup percentages and real hit/miss bins.
+Missed bins and exclusions must be reported; no assigned coverage percentage.
+No code will be changed merely to bypass specification requirements.
+
+The user explicitly requested completing the remaining gates and full project.
+After Gate 3 checks pass, proceed to Gate 4's three actual RTL mutations,
+repeated regressions, synthesis where supported and final documentation.
+

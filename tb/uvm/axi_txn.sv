@@ -7,6 +7,7 @@ class axi_txn extends uvm_sequence_item;
   rand bit [3:0] strobes;
   rand int unsigned aw_delay, w_delay, ar_delay, b_stall, r_stall;
   int unsigned idle_cycles = 1;
+  int unsigned reset_stage = 0;
   bit [31:0] read_result;
   bit [1:0] write_response, read_response;
 
@@ -33,6 +34,10 @@ class axi_cycle extends uvm_sequence_item;
   longint unsigned edge_number;
   bit resetn;
   bit aw_fire, w_fire, ar_fire, b_fire, r_fire;
+  bit aw_stall, w_stall, ar_stall, b_stall, r_stall;
+  bit reset_in_flight;
+  int unsigned write_order;
+  word_t completed_read_address;
   bit write_commit;
   word_t write_address, write_data, read_address;
   strobe_t write_strobes;

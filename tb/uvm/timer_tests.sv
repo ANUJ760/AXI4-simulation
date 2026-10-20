@@ -15,9 +15,13 @@ class timer_core_test extends uvm_test;
     env = timer_env::type_id::create("env", this);
   endfunction
 
+  virtual function timer_core_sequence create_stimulus();
+    return timer_core_sequence::type_id::create("stimulus");
+  endfunction
+
   task run_phase(uvm_phase phase);
     phase.raise_objection(this);
-    stimulus = timer_core_sequence::type_id::create("stimulus");
+    stimulus = create_stimulus();
     stimulus.start(env.agent.sequencer);
     repeat (3) @(negedge vif.aclk);
     `uvm_info("GATE2", $sformatf("UVM bus sequences completed: issued_writes=%0d issued_reads=%0d",
@@ -34,5 +38,15 @@ class timer_core_test extends uvm_test;
     if (env.scoreboard.writes_checked != stimulus.issued_writes ||
         env.scoreboard.reads_checked != stimulus.issued_reads)
       `uvm_error("LOST_TRANSACTION", "Sequence-issued and monitor-checked totals differ")
+  endfunction
+endclass
+
+class timer_full_test extends timer_core_test;
+  `uvm_component_utils(timer_full_test)
+  function new(string name = "timer_full_test", uvm_component parent = null);
+    super.new(name, parent);
+  endfunction
+  virtual function timer_core_sequence create_stimulus();
+    return timer_full_sequence::type_id::create("stimulus");
   endfunction
 endclass
