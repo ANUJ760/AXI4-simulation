@@ -23,7 +23,8 @@ def main():
         return run_logged([simulator, "--lint-only", "--Wall", *rtl,
                            "--top-module", "axi4lite_timer"], build / "lint.log")
     command = [simulator, "--binary", "--timing", "--assert", "--timescale", "1ns/1ps",
-               "-j", str(args.jobs), *rtl, "tb/axi_if.sv", "tests/rtl/timer_tb.sv",
+               "-j", str(args.jobs), *rtl, "tb/axi_if.sv", "tb/axi_assertions.sv",
+               "tests/rtl/timer_tb.sv",
                "--top-module", "timer_tb", "--Mdir", str(build / "obj")]
     code = run_logged(command, build / "compile.log", timeout=600)
     if code:

@@ -17,6 +17,8 @@ module timer_tb;
     .s_axi_rvalid(bus.rvalid), .s_axi_rready(bus.rready), .irq(bus.irq)
   );
 
+  axi_assertions protocol_checks(bus);
+
   longint unsigned cycles = 0, last_write_cycle, last_read_cycle;
   int unsigned checks = 0, groups = 0, writes = 0, reads = 0;
   string scenario = "bringup";
@@ -124,10 +126,13 @@ module timer_tb;
 
   task automatic read_reg(input word_t address, output word_t data,
                           input logic [1:0] response = RESP_OKAY,
-                          input int unsigned stall = 0);
+                          input int unsigned stall = 0,
+                          input int unsigned ar_delay = 0);
     bit accepted;
     @(negedge clk);
-    bus.araddr = address; bus.arvalid = 1; bus.rready = 0;
+    bus.araddr = address; bus.arvalid = 0; bus.rready = 0;
+    repeat (ar_delay) @(negedge clk);
+    bus.arvalid = 1;
     do begin
       @(posedge clk); accepted = bus.arvalid && bus.arready;
       #1ps;
@@ -152,9 +157,10 @@ module timer_tb;
 
   task automatic expect_reg(input word_t address, input word_t expected,
                             input logic [1:0] response = RESP_OKAY,
-                            input int unsigned stall = 0);
+                            input int unsigned stall = 0,
+                            input int unsigned ar_delay = 0);
     word_t actual;
-    read_reg(address, actual, response, stall);
+    read_reg(address, actual, response, stall, ar_delay);
     check(actual === expected, $sformatf("read address=%h expected=%h got=%h",
                                         address, expected, actual));
   endtask
@@ -231,6 +237,14 @@ module timer_tb;
     write_reg(ADDR_ID, '1, 0, RESP_SLVERR);
     expect_reg(ADDR_PERIOD, 37); expect_reg(ADDR_ID, TIMER_ID); expect_reg(ADDR_COUNT, 0);
 
+    begin_case("concurrent_read_write");
+    fork
+      write_reg(ADDR_PERIOD, 55, 4'hf, RESP_OKAY, 0, 0, 4);
+      expect_reg(ADDR_PERIOD, 37, RESP_OKAY, 6, 1);
+    join
+    check(last_read_cycle == last_write_cycle, "AR overlaps write commit edge");
+    expect_reg(ADDR_PERIOD, 55);
+
     begin_case("period_zero_start");
     write_reg(ADDR_PERIOD, 0);
     write_reg(ADDR_CONTROL, 1, 4'hf, RESP_SLVERR);
@@ -268,7 +282,52 @@ module timer_tb;
     start_watched(2);
     expect_reg(ADDR_COUNT, 2);
 
-    check(!timer_watch && !arm_timer_watch, "all exact-edge timer checks completed");
+    begin_case("completion_clear_priority");
+    start_watched(4); start_edge = last_write_cycle;
+    write_reg(ADDR_STATUS, 1 << DONE_BIT);
+    check(last_write_cycle == start_edge + 4, "W1C commits on completion edge");
+    expect_reg(ADDR_STATUS, 1 << DONE_BIT);
+    check(bus.irq, "new completion dominates simultaneous DONE clear");
+
+    begin_case("read_completion_collision");
+    start_watched(3); start_edge = last_write_cycle;
+    expect_reg(ADDR_STATUS, 1 << BUSY_BIT);
+    check(last_read_cycle == start_edge + 3, "AR accepts on completion edge");
+    expect_reg(ADDR_STATUS, 1 << DONE_BIT);
+
+    begin_case("maximum_period_start");
+    start_watched(32'hffffffff); start_edge = last_write_cycle;
+    check_elapsed(start_edge, 32'hffffffff);
+    expect_reg(ADDR_STATUS, 1 << BUSY_BIT);
+    reset_bus();
+
+    begin_case("reset_in_flight");
+    for (int stage = 0; stage < 6; stage++) begin
+      reset_bus();
+      if (stage <= 3) begin
+        @(negedge clk);
+        bus.awaddr = ADDR_PERIOD; bus.wdata = 123; bus.wstrb = 4'hf;
+        bus.awvalid = stage != 1; bus.wvalid = stage != 0;
+        cycle();
+        check(!bus.bvalid, "no premature B before reset");
+        if (stage == 3) begin
+          @(negedge clk); bus.awvalid = 0; bus.wvalid = 0;
+          cycle(); check(bus.bvalid, "reset with stalled B response");
+        end
+      end else if (stage == 4) begin
+        @(negedge clk); bus.araddr = ADDR_ID; bus.arvalid = 1;
+        cycle(); check(bus.rvalid, "reset with stalled R response");
+      end else start_watched(50);
+      reset_bus();
+      repeat (5) begin
+        cycle(); check(!bus.bvalid && !bus.rvalid && !bus.irq,
+                       "reset discards buffered traffic and active timer");
+      end
+      expect_reg(ADDR_PERIOD, 0); expect_reg(ADDR_CONTROL, 0);
+      expect_reg(ADDR_STATUS, 0); expect_reg(ADDR_COUNT, 0);
+    end
+
+    check(!timer_watch && !arm_timer_watch, "no unfinished timer check after reset");
     $display("RTL RESULT PASS seed=%0d groups=%0d checks=%0d writes=%0d reads=%0d",
              seed, groups, checks, writes, reads);
     $finish;
