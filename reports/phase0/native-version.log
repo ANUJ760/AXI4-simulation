@@ -1,0 +1,3 @@
+$ .tools/verilator/bin/verilator_bin --version
+Verilator 5.052 2026-09-05 rev v5.052
+EXIT_STATUS=0

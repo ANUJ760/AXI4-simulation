@@ -1,0 +1,5 @@
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --version
+Can't locate FindBin.pm in @INC (you may need to install the FindBin module) (@INC entries checked: /usr/local/lib64/perl5/5.42 /usr/local/share/perl5/5.42 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator line 15.
+BEGIN failed--compilation aborted at /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator line 15.
+
+EXIT_STATUS=2

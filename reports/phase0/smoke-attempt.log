@@ -1,0 +1,8 @@
+$ make uvm-smoke SEED=42 JOBS=2
+python3 scripts/uvm_smoke.py --jobs 2 --seed 42
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --version
+exit=2; log=build/uvm-smoke/42/versions.log
+BLOCKED: simulator launcher failed; inspect versions.log
+make: *** [Makefile:17: uvm-smoke] Error 2
+
+EXIT_STATUS=2
