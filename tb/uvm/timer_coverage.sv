@@ -48,6 +48,16 @@ class timer_coverage extends uvm_subscriber #(axi_cycle);
     endcase
   endfunction
 
+  function string operation_name(int unsigned index);
+    if (index == 1) return "write";
+    return "read";
+  endfunction
+
+  function string response_name(int unsigned index);
+    if (index == 0) return "okay";
+    return "slverr";
+  endfunction
+
   function string address_name(int unsigned index);
     case (index)
       0: return "control"; 1: return "period"; 2: return "count";
@@ -120,13 +130,13 @@ class timer_coverage extends uvm_subscriber #(axi_cycle);
   function void report_phase(uvm_phase phase);
     super.report_phase(phase);
     foreach (address_hits[op, address])
-      emit_bin($sformatf("address.%s.%s", op == 1 ? "write" : "read", address_name(address)),
+      emit_bin($sformatf("address.%s.%s", operation_name(op), address_name(address)),
                address_hits[op][address]);
     foreach (strobe_hits[i]) emit_bin($sformatf("strobe.%0d", i), strobe_hits[i]);
     foreach (order_hits[i]) emit_bin($sformatf("order.%0d", i), order_hits[i]);
     foreach (response_hits[op, response])
-      emit_bin($sformatf("response.%s.%s", op == 1 ? "write" : "read",
-                        response == 0 ? "okay" : "slverr"), response_hits[op][response]);
+      emit_bin($sformatf("response.%s.%s", operation_name(op),
+                        response_name(response)), response_hits[op][response]);
     foreach (event_hits[i]) emit_bin($sformatf("event.%s", event_name(i)), event_hits[i]);
     `uvm_info("COVERGROUP", $sformatf("name=address percent=%0.2f", address_cg.get_inst_coverage()), UVM_LOW)
     `uvm_info("COVERGROUP", $sformatf("name=write percent=%0.2f", write_cg.get_inst_coverage()), UVM_LOW)

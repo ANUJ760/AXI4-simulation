@@ -29,6 +29,17 @@ module axi_assertions(axi_if.monitor bus);
                                  !bus.awready && !bus.wready && !bus.arready)
     else $fatal(1, "Reset did not clear responses/READY/IRQ");
 
+  // Non-vacuous antecedent/transfer coverage, collected by --coverage-user.
+  aw_stall_seen: cover property (bus.awvalid && !bus.awready);
+  w_stall_seen: cover property (bus.wvalid && !bus.wready);
+  ar_stall_seen: cover property (bus.arvalid && !bus.arready);
+  b_stall_seen: cover property (bus.bvalid && !bus.bready);
+  r_stall_seen: cover property (bus.rvalid && !bus.rready);
+  b_transfer_seen: cover property (bus.bvalid && bus.bready);
+  r_transfer_seen: cover property (bus.rvalid && bus.rready);
+  reset_seen: cover property (@(posedge bus.aclk) disable iff (1'b0)
+                              !bus.aresetn && !bus.bvalid && !bus.rvalid && !bus.irq);
+
   logic saw_aw, saw_w, saw_ar;
   always_ff @(posedge bus.aclk or negedge bus.aresetn) begin
     if (!bus.aresetn) begin
