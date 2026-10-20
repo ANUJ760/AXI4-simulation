@@ -1,6 +1,7 @@
-# Proposed Phase 1: RTL and directed verification
+# Phase 1: RTL and directed verification
 
-Begin after Gate 0, following the guide's instruction to deliver Phase 0 first.
+Gate 0 passed before this phase began. Gate 1 is now implemented and verified;
+see `../reports/FINAL_REPORT.md` for actual commands and results.
 
 Files:
 

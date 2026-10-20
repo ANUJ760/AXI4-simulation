@@ -10,6 +10,9 @@ make packages
 make toolchain JOBS=2
 make env-check
 make uvm-smoke SEED=42 JOBS=2
+make lint
+make test-rtl SEED=42 JOBS=2
+make regress-rtl RTL_SEEDS="42 1042 2026" JOBS=2
 ```
 
 No pip packages or virtual environment are needed. GTKWave is optional for
@@ -36,6 +39,16 @@ absolute installation paths. Keep logs when investigating failures; bootstrap
 and smoke timeouts return nonzero. If a download is interrupted, retry the same
 command. Delete a corrupt archive explicitly before redownloading; checks never
 silently accept changed upstream content.
+
+RTL tests execute with Verilator independently of UVM. Every seed creates
+`build/rtl/<seed>/compile.log`, `run.log`, `versions.log`, `result.json` and
+`timer.vcd`. Open a trace with `gtkwave build/rtl/42/timer.vcd` from a desktop
+terminal. The regression summary is `build/rtl/regression/summary.json`.
+
+VCD tracing requires no additional development package. An FST build was tried
+and failed because `lz4.h` was absent; FST is not required by the current targets.
+No LZ4 package was installed for this project. Failed compile/run commands stop
+the regression; the structured verdict is cleared before each test attempt.
 
 References: [Verilator release notes](https://verilator.org/guide/latest/changes.html)
 and [Accellera UVM downloads](https://www.accellera.org/downloads/standards/uvm).
