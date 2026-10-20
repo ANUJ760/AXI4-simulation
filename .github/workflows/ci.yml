@@ -1,4 +1,4 @@
-name: UVM toolchain gate
+name: AXI4-Lite verification
 on: [push, pull_request]
 permissions:
   contents: read
@@ -21,9 +21,16 @@ jobs:
         run: make env-check
       - name: Execute actual UVM smoke
         run: make uvm-smoke SEED=42 JOBS=2
+      - name: Lint synthesizable RTL
+        run: make lint
+      - name: Execute directed and seeded RTL regression
+        run: make regress-rtl JOBS=2
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: uvm-gate-logs
-          path: build/**/*.log
+          path: |
+            build/**/*.log
+            build/**/*.json
+            build/**/*.vcd
           if-no-files-found: warn

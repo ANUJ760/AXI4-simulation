@@ -1,10 +1,10 @@
 include config/tools.mk
 
 .DEFAULT_GOAL := help
-.PHONY: help env-check packages fetch-toolchain toolchain uvm-smoke lint test-rtl
+.PHONY: help env-check packages fetch-toolchain toolchain uvm-smoke lint test-rtl regress-rtl
 help:
 	@echo "Phase 0: env-check packages fetch-toolchain toolchain uvm-smoke"
-	@echo "Phase 1: lint test-rtl"
+	@echo "Phase 1: lint test-rtl regress-rtl"
 	@echo "JOBS=$(JOBS) SEED=$(SEED); generated outputs: build/ and .tools/"
 env-check:
 	$(PYTHON) scripts/env_check.py
@@ -21,3 +21,7 @@ lint:
 	$(PYTHON) scripts/rtl_check.py lint --seed $(SEED)
 test-rtl:
 	$(PYTHON) scripts/rtl_check.py test --jobs $(JOBS) --seed $(SEED)
+
+RTL_SEEDS ?= 42 1042 2026
+regress-rtl:
+	$(PYTHON) scripts/rtl_regress.py --seeds $(RTL_SEEDS) --jobs $(JOBS)
