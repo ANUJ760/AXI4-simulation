@@ -1,0 +1,29 @@
+$ /home/anuj/Downloads/AXI4-simulation/build/rtl/variants/synthesized/42/obj/Vtimer_tb +verilator+seed+42 +SEED=42 +WAVE=/home/anuj/Downloads/AXI4-simulation/build/rtl/variants/synthesized/42/timer.vcd
+RTL seed=42
+CASE smoke_reset_id
+CASE register_rw_strobes
+CASE aw_before_w
+CASE w_before_aw
+CASE aw_w_same_cycle
+CASE b_backpressure
+CASE r_backpressure
+CASE invalid_access
+CASE concurrent_read_write
+CASE manager_request_stalls
+CASE period_zero_start
+CASE timer_done_irq_w1c
+CASE period_snapshot
+CASE completion_clear_priority
+CASE busy_start_completion_collision
+CASE read_completion_collision
+CASE maximum_period_start
+CASE reset_in_flight
+CASE randomized_stalls
+STALLS aw=6 w=6 ar=5 b=253 r=347
+RTL RESULT PASS seed=42 groups=19 checks=2523 writes=136 reads=157
+- tests/rtl/timer_tb.sv:411: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.052 2026-09-05
+- Verilator: $finish at 20us; walltime 0.010 s; speed 2.006 ms/s
+- Verilator: cpu 0.010 s on 1 threads; allocated 5 MB
+
+EXIT_STATUS=0

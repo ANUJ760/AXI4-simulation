@@ -1,0 +1,924 @@
+$ yosys -Q -T -s /home/anuj/Downloads/AXI4-simulation/build/synth/synth.ys
+
+-- Executing script file `/home/anuj/Downloads/AXI4-simulation/build/synth/synth.ys' --
+
+1. Executing Verilog-2005 frontend: /home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv
+Parsing SystemVerilog input from `/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv' to AST representation.
+Generating RTLIL representation for module `\axi4lite_timer'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \axi4lite_timer
+
+2.2. Analyzing design hierarchy..
+Top module:  \axi4lite_timer
+Removed 0 unused modules.
+
+3. Executing SYNTH pass.
+
+3.1. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1.1. Analyzing design hierarchy..
+Top module:  \axi4lite_timer
+
+3.1.2. Analyzing design hierarchy..
+Top module:  \axi4lite_timer
+Removed 0 unused modules.
+
+3.2. Executing PROC pass (convert processes to netlists).
+
+3.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 7 switch rules as full_case in process $proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18 in module axi4lite_timer.
+Marked 1 switch rules as full_case in process $proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:91$17 in module axi4lite_timer.
+Marked 3 switch rules as full_case in process $proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11 in module axi4lite_timer.
+Removed a total of 0 dead cases.
+
+3.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 13 assignments to connections.
+
+3.2.4. Executing PROC_INIT pass (extract init attributes).
+
+3.2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \aresetn in `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+
+3.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~23 debug messages>
+
+3.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+     1/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[31:0]$51 [31:24]
+     2/44: $6\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[23:16]$55
+     3/44: $5\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[15:8]$54
+     4/44: $4\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[7:0]$53
+     5/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$result[31:0]$47
+     6/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$fordecl_block$1.lane[31:0]$52
+     7/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[31:0]$51 [23:16]
+     8/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[31:0]$51 [15:8]
+     9/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[31:0]$51 [7:0]
+    10/44: $7\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[31:24]$56
+    11/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.strobes[3:0]$50
+    12/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.incoming[31:0]$49
+    13/44: $3\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.previous[31:0]$48
+    14/44: $2\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$fordecl_block$1.lane[31:0]$46
+    15/44: $2\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[31:0]$45
+    16/44: $2\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.strobes[3:0]$44
+    17/44: $2\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.incoming[31:0]$43
+    18/44: $2\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.previous[31:0]$42
+    19/44: $2\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$result[31:0]$41
+    20/44: $1\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$fordecl_block$1.lane[31:0]$31
+    21/44: $1\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged[31:0]$30
+    22/44: $1\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.strobes[3:0]$29
+    23/44: $1\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.incoming[31:0]$28
+    24/44: $1\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.previous[31:0]$27
+    25/44: $1\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$result[31:0]$26
+    26/44: $0\w_full[0:0]
+    27/44: $0\aw_full[0:0]
+    28/44: $0\write_strobes[3:0]
+    29/44: $0\write_data[31:0]
+    30/44: $0\write_address[31:0]
+    31/44: $0\done[0:0]
+    32/44: $0\busy[0:0]
+    33/44: $0\irq_enabled[0:0]
+    34/44: $0\count_reg[31:0]
+    35/44: $0\active_period[31:0]
+    36/44: $0\period_reg[31:0]
+    37/44: $0\s_axi_rvalid[0:0]
+    38/44: $0\s_axi_rresp[1:0]
+    39/44: $0\s_axi_rdata[31:0]
+    40/44: $0\s_axi_arready[0:0]
+    41/44: $0\s_axi_bvalid[0:0]
+    42/44: $0\s_axi_bresp[1:0]
+    43/44: $0\s_axi_wready[0:0]
+    44/44: $0\s_axi_awready[0:0]
+Creating decoders for process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:91$17'.
+     1/4: $1\read_data[31:0] [31:2]
+     2/4: $1\read_data[31:0] [1]
+     3/4: $1\read_response[1:0]
+     4/4: $1\read_data[31:0] [0]
+Creating decoders for process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+     1/11: $3\write_response[1:0]
+     2/11: $3\write_irq[0:0]
+     3/11: $3\start_command[0:0]
+     4/11: $2\write_response[1:0]
+     5/11: $2\write_irq[0:0]
+     6/11: $2\start_command[0:0]
+     7/11: $1\write_response[1:0]
+     8/11: $1\write_irq[0:0]
+     9/11: $1\start_command[0:0]
+    10/11: $1\write_period[0:0]
+    11/11: $1\clear_done[0:0]
+
+3.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\axi4lite_timer.\read_data' from process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:91$17'.
+No latch inferred for signal `\axi4lite_timer.\read_response' from process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:91$17'.
+No latch inferred for signal `\axi4lite_timer.\start_command' from process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+No latch inferred for signal `\axi4lite_timer.\clear_done' from process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+No latch inferred for signal `\axi4lite_timer.\write_irq' from process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+No latch inferred for signal `\axi4lite_timer.\write_period' from process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+No latch inferred for signal `\axi4lite_timer.\write_response' from process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+
+3.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\axi4lite_timer.\s_axi_awready' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$378' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\s_axi_wready' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$383' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\s_axi_bresp' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$388' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\s_axi_bvalid' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$393' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\s_axi_arready' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$398' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\s_axi_rdata' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$403' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\s_axi_rresp' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$408' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\s_axi_rvalid' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$413' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\period_reg' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$418' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\active_period' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$423' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\count_reg' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$428' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\irq_enabled' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$433' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\busy' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$438' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\done' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$443' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\write_address' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$448' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\write_data' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$453' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\write_strobes' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$458' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\aw_full' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$463' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\w_full' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$468' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$result' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$473' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.previous' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$478' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.incoming' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$483' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.strobes' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$488' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.merged' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $adff cell `$procdff$493' with positive edge clock and positive level reset.
+Creating register for signal `\axi4lite_timer.\merge_bytes$func$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:159$3.$fordecl_block$1.lane' using process `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+  created $dff cell `$procdff$500' with positive edge clock.
+
+3.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 19 empty switches in `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+Removing empty process `axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:107$18'.
+Found and cleaned up 1 empty switch in `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:91$17'.
+Removing empty process `axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:91$17'.
+Found and cleaned up 3 empty switches in `\axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+Removing empty process `axi4lite_timer.$proc$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:68$11'.
+Cleaned up 23 empty switches.
+
+3.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+<suppressed ~63 debug messages>
+
+3.3. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+Removed 58 unused cells and 250 unused wires.
+<suppressed ~63 debug messages>
+
+3.5. Executing CHECK pass (checking for obvious problems).
+Checking module axi4lite_timer...
+Found and reported 0 problems.
+
+3.6. Executing OPT pass (performing simple optimizations).
+
+3.6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 153 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Computing hashes of 130 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+<suppressed ~69 debug messages>
+Removed a total of 23 cells.
+
+3.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $procmux$200: \busy -> 1'0
+      Replacing known input bits on port A of cell $procmux$198: \busy -> 1'1
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$302.
+    dead port 2/2 on $mux $procmux$342.
+    dead port 2/2 on $mux $procmux$334.
+    dead port 2/2 on $mux $procmux$326.
+    dead port 2/2 on $mux $procmux$324.
+    dead port 2/2 on $mux $procmux$315.
+    dead port 2/2 on $mux $procmux$350.
+    dead port 2/2 on $mux $procmux$133.
+    dead port 2/2 on $mux $procmux$131.
+    dead port 2/2 on $mux $procmux$313.
+    dead port 2/2 on $mux $procmux$94.
+    dead port 2/2 on $mux $procmux$92.
+    dead port 2/2 on $mux $procmux$85.
+    dead port 2/2 on $mux $procmux$83.
+    dead port 2/2 on $mux $procmux$76.
+    dead port 2/2 on $mux $procmux$74.
+    dead port 2/2 on $mux $procmux$304.
+Removed 17 multiplexer ports.
+<suppressed ~115 debug messages>
+
+3.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+    New ctrl vector for $pmux cell $procmux$283: $auto$opt_reduce.cc:137:opt_pmux$502
+    New ctrl vector for $pmux cell $procmux$353: { $auto$opt_reduce.cc:137:opt_pmux$504 $procmux$361_CMP }
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 2 changes.
+
+3.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 115 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+Removed 0 unused cells and 40 unused wires.
+<suppressed ~1 debug messages>
+
+3.6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+3.6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~98 debug messages>
+
+3.6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 0 changes.
+
+3.6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 115 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.6.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.6.16. Finished fast OPT passes. (There is nothing left to do.)
+
+3.7. Executing FSM pass (extract and optimize FSM).
+
+3.7.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking axi4lite_timer.s_axi_rresp as FSM state register:
+    Register is connected to module port.
+    Users of register don't seem to benefit from recoding.
+Not marking axi4lite_timer.s_axi_bresp as FSM state register:
+    Register is connected to module port.
+    Users of register don't seem to benefit from recoding.
+
+3.7.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+3.7.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+3.7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.7.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+3.7.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+3.7.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+3.7.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+3.8. Executing OPT pass (performing simple optimizations).
+
+3.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 115 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~98 debug messages>
+
+3.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 0 changes.
+
+3.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 115 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$453 ($adff) from module axi4lite_timer (D = \s_axi_wdata, Q = \write_data).
+Adding EN signal on $procdff$413 ($adff) from module axi4lite_timer (D = $0\s_axi_rvalid[0:0], Q = \s_axi_rvalid).
+Adding EN signal on $procdff$458 ($adff) from module axi4lite_timer (D = \s_axi_wstrb, Q = \write_strobes).
+Adding EN signal on $procdff$408 ($adff) from module axi4lite_timer (D = \read_response, Q = \s_axi_rresp).
+Adding EN signal on $procdff$448 ($adff) from module axi4lite_timer (D = \s_axi_awaddr, Q = \write_address).
+Adding EN signal on $procdff$403 ($adff) from module axi4lite_timer (D = \read_data, Q = \s_axi_rdata).
+Adding EN signal on $procdff$468 ($adff) from module axi4lite_timer (D = $0\w_full[0:0], Q = \w_full).
+Adding EN signal on $procdff$433 ($adff) from module axi4lite_timer (D = \write_data [1], Q = \irq_enabled).
+Adding EN signal on $procdff$398 ($adff) from module axi4lite_timer (D = $0\s_axi_arready[0:0], Q = \s_axi_arready).
+Adding EN signal on $procdff$423 ($adff) from module axi4lite_timer (D = \period_reg, Q = \active_period).
+Adding EN signal on $procdff$393 ($adff) from module axi4lite_timer (D = $0\s_axi_bvalid[0:0], Q = \s_axi_bvalid).
+Adding EN signal on $procdff$388 ($adff) from module axi4lite_timer (D = \write_response, Q = \s_axi_bresp).
+Adding EN signal on $procdff$463 ($adff) from module axi4lite_timer (D = $0\aw_full[0:0], Q = \aw_full).
+Adding EN signal on $procdff$383 ($adff) from module axi4lite_timer (D = $0\s_axi_wready[0:0], Q = \s_axi_wready).
+Adding EN signal on $procdff$418 ($adff) from module axi4lite_timer (D = \write_data [7:0], Q = \period_reg [7:0]).
+Adding EN signal on $procdff$418 ($adff) from module axi4lite_timer (D = \write_data [15:8], Q = \period_reg [15:8]).
+Adding EN signal on $procdff$418 ($adff) from module axi4lite_timer (D = \write_data [23:16], Q = \period_reg [23:16]).
+Adding EN signal on $procdff$418 ($adff) from module axi4lite_timer (D = \write_data [31:24], Q = \period_reg [31:24]).
+Adding EN signal on $procdff$378 ($adff) from module axi4lite_timer (D = $0\s_axi_awready[0:0], Q = \s_axi_awready).
+
+3.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+Removed 16 unused cells and 16 unused wires.
+<suppressed ~17 debug messages>
+
+3.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+<suppressed ~6 debug messages>
+
+3.8.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+3.8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~78 debug messages>
+
+3.8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 0 changes.
+
+3.8.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 115 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.8.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.8.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.8.16. Finished fast OPT passes. (There is nothing left to do.)
+
+3.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 2 bits (of 3) from port B of cell axi4lite_timer.$auto$opt_dff.cc:320:make_patterns_logic$521 ($ne).
+Removed top 31 bits (of 32) from port B of cell axi4lite_timer.$sub$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:65$8 ($sub).
+Removed top 31 bits (of 32) from port B of cell axi4lite_timer.$add$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:130$32 ($add).
+Removed top 27 bits (of 32) from port B of cell axi4lite_timer.$procmux$291_CMP0 ($eq).
+Removed top 28 bits (of 32) from port B of cell axi4lite_timer.$procmux$292_CMP0 ($eq).
+Removed top 28 bits (of 32) from port B of cell axi4lite_timer.$procmux$293_CMP0 ($eq).
+Removed top 29 bits (of 32) from port B of cell axi4lite_timer.$procmux$294_CMP0 ($eq).
+Removed top 28 bits (of 32) from port B of cell axi4lite_timer.$procmux$354_CMP0 ($eq).
+Removed top 29 bits (of 32) from port B of cell axi4lite_timer.$procmux$355_CMP0 ($eq).
+
+3.10. Executing PEEPOPT pass (run peephole optimizers).
+
+3.11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.12. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module axi4lite_timer:
+  creating $macc model for $add$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:130$32 ($add).
+  creating $macc model for $sub$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:65$8 ($sub).
+  creating $alu model for $macc $sub$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:65$8.
+  creating $alu model for $macc $add$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:130$32.
+  creating $alu cell for $add$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:130$32: $auto$alumacc.cc:512:replace_alu$550
+  creating $alu cell for $sub$/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv:65$8: $auto$alumacc.cc:512:replace_alu$553
+  created 2 $alu and 0 $macc cells.
+
+3.13. Executing SHARE pass (SAT-based resource sharing).
+
+3.14. Executing OPT pass (performing simple optimizations).
+
+3.14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 115 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~78 debug messages>
+
+3.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 0 changes.
+
+3.14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 115 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.14.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.14.9. Finished fast OPT passes. (There is nothing left to do.)
+
+3.15. Executing MEMORY pass.
+
+3.15.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+3.15.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+3.15.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+3.15.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+3.15.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+3.15.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.15.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+3.15.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+3.15.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.15.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+3.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.17. Executing OPT pass (performing simple optimizations).
+
+3.17.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+<suppressed ~21 debug messages>
+
+3.17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 108 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Computing hashes of 107 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+3.17.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.17.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+Removed 0 unused cells and 8 unused wires.
+<suppressed ~1 debug messages>
+
+3.17.5. Finished fast OPT passes.
+
+3.18. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+3.19. Executing OPT pass (performing simple optimizations).
+
+3.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+<suppressed ~6 debug messages>
+
+3.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 107 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.19.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~35 debug messages>
+
+3.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+    Consolidated identical input bits for $mux cell $procmux$283:
+      Old ports: A=2'10, B=2'00, Y=\read_response
+      New ports: A=1'1, B=1'0, Y=\read_response [1]
+      New connections: \read_response [0] = 1'0
+    Consolidated identical input bits for $mux cell $procmux$300:
+      Old ports: A=2'00, B=2'10, Y=$3\write_response[1:0]
+      New ports: A=1'0, B=1'1, Y=$3\write_response[1:0] [1]
+      New connections: $3\write_response[1:0] [0] = 1'0
+  Optimizing cells in module \axi4lite_timer.
+    Consolidated identical input bits for $mux cell $procmux$332:
+      Old ports: A=2'00, B=$3\write_response[1:0], Y=$2\write_response[1:0]
+      New ports: A=1'0, B=$3\write_response[1:0] [1], Y=$2\write_response[1:0] [1]
+      New connections: $2\write_response[1:0] [0] = 1'0
+  Optimizing cells in module \axi4lite_timer.
+    Consolidated identical input bits for $pmux cell $procmux$353:
+      Old ports: A=2'10, B={ 2'00 $2\write_response[1:0] }, Y=\write_response
+      New ports: A=1'1, B={ 1'0 $2\write_response[1:0] [1] }, Y=\write_response [1]
+      New connections: \write_response [0] = 1'0
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 4 changes.
+
+3.19.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 107 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.19.6. Executing OPT_SHARE pass.
+
+3.19.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.19.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.19.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+<suppressed ~3 debug messages>
+
+3.19.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+3.19.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~31 debug messages>
+
+3.19.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 0 changes.
+
+3.19.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 106 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.19.14. Executing OPT_SHARE pass.
+
+3.19.15. Executing OPT_DFF pass (perform DFF optimizations).
+Setting constant 0-bit at position 0 on $auto$ff.cc:337:slice$528 ($adffe) from module axi4lite_timer.
+Setting constant 0-bit at position 0 on $auto$ff.cc:337:slice$510 ($adffe) from module axi4lite_timer.
+
+3.19.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+3.19.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.19.18. Rerunning OPT passes. (Maybe there is more to do..)
+
+3.19.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \axi4lite_timer..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~31 debug messages>
+
+3.19.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \axi4lite_timer.
+Performed a total of 0 changes.
+
+3.19.21. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 106 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.19.22. Executing OPT_SHARE pass.
+
+3.19.23. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.19.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+
+3.19.25. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.19.26. Finished fast OPT passes. (There is nothing left to do.)
+
+3.20. Executing TECHMAP pass (map to technology primitives).
+
+3.20.1. Executing Verilog-2005 frontend: /usr/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/usr/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+3.20.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $adffe.
+Using template $paramod$c04af8dbf0e5d1d69bbccb2c7bd8a93fc9ef54dc\_90_alu for cells of type $alu.
+Using template $paramod$6a42b6fefed750f8a1c58eab59479d960557103c\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $ne.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $logic_or.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $adff.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000100000 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000100000 for cells of type $lcu.
+Using extmapper simplemap for cells of type $xor.
+No more expansions possible.
+<suppressed ~679 debug messages>
+
+3.21. Executing OPT pass (performing simple optimizations).
+
+3.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+<suppressed ~758 debug messages>
+
+3.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 1221 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Computing hashes of 1125 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Computing hashes of 1083 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Computing hashes of 1065 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Computing hashes of 1059 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+<suppressed ~486 debug messages>
+Removed a total of 162 cells.
+
+3.21.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+Removed 50 unused cells and 307 unused wires.
+<suppressed ~51 debug messages>
+
+3.21.5. Finished fast OPT passes.
+
+3.22. Executing ABC pass (technology mapping using ABC).
+
+3.22.1. Extracting gate netlist of module `\axi4lite_timer' to `<abc-temp-dir>/input.blif'..
+
+3.22.1.1. Executed ABC.
+Extracted 801 gates and 983 wires to a netlist network with 180 inputs and 92 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+3.22.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:      173
+ABC RESULTS:            ANDNOT cells:       67
+ABC RESULTS:               MUX cells:        4
+ABC RESULTS:              NAND cells:      117
+ABC RESULTS:               NOR cells:       50
+ABC RESULTS:               NOT cells:        7
+ABC RESULTS:                OR cells:       31
+ABC RESULTS:             ORNOT cells:        2
+ABC RESULTS:              XNOR cells:       33
+ABC RESULTS:               XOR cells:       36
+ABC RESULTS:        internal signals:      711
+ABC RESULTS:           input signals:      180
+ABC RESULTS:          output signals:       92
+Removing temp directory.
+Removing global temp directory.
+
+3.23. Executing OPT pass (performing simple optimizations).
+
+3.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module axi4lite_timer.
+
+3.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\axi4lite_timer'.
+Computing hashes of 728 cells of `\axi4lite_timer'.
+Finding duplicate cells in `\axi4lite_timer'.
+Removed a total of 0 cells.
+
+3.23.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+3.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \axi4lite_timer..
+Removed 0 unused cells and 624 unused wires.
+<suppressed ~6 debug messages>
+
+3.23.5. Finished fast OPT passes.
+
+3.24. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `axi4lite_timer'. Setting top module to axi4lite_timer.
+
+3.24.1. Analyzing design hierarchy..
+Top module:  \axi4lite_timer
+
+3.24.2. Analyzing design hierarchy..
+Top module:  \axi4lite_timer
+Removed 0 unused modules.
+
+3.25. Printing statistics.
+
+=== axi4lite_timer ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      488 wires
+      839 wire bits
+       35 public wires
+      355 public wire bits
+       20 ports
+      149 port bits
+      728 cells
+       67   $_ANDNOT_
+      173   $_AND_
+      174   $_DFFE_PN0P_
+       34   $_DFF_PN0_
+        4   $_MUX_
+      117   $_NAND_
+       50   $_NOR_
+        7   $_NOT_
+        2   $_ORNOT_
+       31   $_OR_
+       33   $_XNOR_
+       36   $_XOR_
+
+3.26. Executing CHECK pass (checking for obvious problems).
+Checking module axi4lite_timer...
+Found and reported 0 problems.
+
+4. Executing CHECK pass (checking for obvious problems).
+Checking module axi4lite_timer...
+Found and reported 0 problems.
+{
+   "creator": "Yosys 0.67+post (git sha1 22c15a7ecd53437f18f67c72572bd693f78357ca, GNU /usr/bin/g++ 16.1.1)",
+   "invocation": "stat -json ",
+   "modules": {
+      "\\axi4lite_timer": {
+         "num_wires":         488,
+         "num_wire_bits":     839,
+         "num_pub_wires":     35,
+         "num_pub_wire_bits": 355,
+         "num_ports":         20,
+         "num_port_bits":     149,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         728,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 67,
+            "$_AND_": 173,
+            "$_DFFE_PN0P_": 174,
+            "$_DFF_PN0_": 34,
+            "$_MUX_": 4,
+            "$_NAND_": 117,
+            "$_NOR_": 50,
+            "$_NOT_": 7,
+            "$_ORNOT_": 2,
+            "$_OR_": 31,
+            "$_XNOR_": 33,
+            "$_XOR_": 36
+         }
+      }
+   },
+      "design": {
+         "num_wires":         488,
+         "num_wire_bits":     839,
+         "num_pub_wires":     35,
+         "num_pub_wire_bits": 355,
+         "num_ports":         20,
+         "num_port_bits":     149,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         728,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 67,
+            "$_AND_": 173,
+            "$_DFFE_PN0P_": 174,
+            "$_DFF_PN0_": 34,
+            "$_MUX_": 4,
+            "$_NAND_": 117,
+            "$_NOR_": 50,
+            "$_NOT_": 7,
+            "$_ORNOT_": 2,
+            "$_OR_": 31,
+            "$_XNOR_": 33,
+            "$_XOR_": 36
+         }
+      }
+}
+
+5. Executing JSON backend.
+
+6. Executing Verilog backend.
+
+6.1. Executing BMUXMAP pass.
+
+6.2. Executing DEMUXMAP pass.
+Dumping module `\axi4lite_timer'.
+
+EXIT_STATUS=0

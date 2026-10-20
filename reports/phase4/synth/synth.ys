@@ -1,0 +1,7 @@
+read_verilog -sv "/home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv"
+hierarchy -check -top axi4lite_timer
+synth -top axi4lite_timer
+check -assert
+tee -o "/home/anuj/Downloads/AXI4-simulation/build/synth/stat.json" stat -json
+write_json "/home/anuj/Downloads/AXI4-simulation/build/synth/netlist.json"
+write_verilog -noattr "/home/anuj/Downloads/AXI4-simulation/build/synth/netlist.v"

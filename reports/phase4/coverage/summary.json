@@ -1,0 +1,101 @@
+{
+  "passed": true,
+  "sva_cover_hits": {
+    "aw_stall_seen": 9,
+    "w_stall_seen": 9,
+    "ar_stall_seen": 9,
+    "b_stall_seen": 2426,
+    "r_stall_seen": 2516,
+    "b_transfer_seen": 534,
+    "r_transfer_seen": 651,
+    "reset_seen": 81
+  },
+  "missing_sva_events": [],
+  "planned_bins": 47,
+  "hit_bins": 47,
+  "missing_bins": [],
+  "observed_bin_hits": {
+    "address.read.control": 71,
+    "address.read.period": 231,
+    "address.read.count": 103,
+    "address.read.status": 110,
+    "address.read.id": 58,
+    "address.read.unmapped": 44,
+    "address.read.misaligned": 40,
+    "address.write.control": 51,
+    "address.write.period": 462,
+    "address.write.count": 6,
+    "address.write.status": 9,
+    "address.write.id": 6,
+    "address.write.unmapped": 3,
+    "address.write.misaligned": 3,
+    "strobe.0": 33,
+    "strobe.1": 19,
+    "strobe.2": 21,
+    "strobe.3": 23,
+    "strobe.4": 31,
+    "strobe.5": 32,
+    "strobe.6": 24,
+    "strobe.7": 21,
+    "strobe.8": 22,
+    "strobe.9": 25,
+    "strobe.10": 27,
+    "strobe.11": 26,
+    "strobe.12": 28,
+    "strobe.13": 21,
+    "strobe.14": 20,
+    "strobe.15": 167,
+    "order.0": 285,
+    "order.1": 132,
+    "order.2": 123,
+    "response.read.okay": 567,
+    "response.read.slverr": 84,
+    "response.write.okay": 507,
+    "response.write.slverr": 27,
+    "event.aw_stall": 9,
+    "event.w_stall": 9,
+    "event.ar_stall": 9,
+    "event.b_stall": 2426,
+    "event.r_stall": 2516,
+    "event.reset_in_flight": 18,
+    "event.done_read": 79,
+    "event.irq_rise": 33,
+    "event.irq_fall": 30,
+    "event.reset_idle": 9
+  },
+  "per_run_simulator_covergroups": [
+    {
+      "seed": 42,
+      "groups": {
+        "address": 100.0,
+        "write": 100.0,
+        "response": 100.0,
+        "event": 100.0
+      }
+    },
+    {
+      "seed": 1042,
+      "groups": {
+        "address": 100.0,
+        "write": 100.0,
+        "response": 100.0,
+        "event": 100.0
+      }
+    },
+    {
+      "seed": 2026,
+      "groups": {
+        "address": 100.0,
+        "write": 100.0,
+        "response": 100.0,
+        "event": 100.0
+      }
+    }
+  ],
+  "exclusions": [
+    "Full AXI bursts, IDs and EXOKAY/DECERR are outside the DUT contract.",
+    "The 47 tracked bins count cross products without double-counting their marginal coverpoints.",
+    "Simulator covergroup percentages are reported separately with default coverpoint weighting.",
+    "No code, toggle, FSM, formal, or physical timing coverage is implied by functional coverage."
+  ]
+}

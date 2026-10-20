@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "seed": 2026,
+  "exit_status": 0,
+  "stage": "complete",
+  "rtl_source": "rtl/axi4lite_timer.sv",
+  "variant": "baseline",
+  "waveform": "build/rtl/2026/timer.vcd",
+  "groups": 19,
+  "checks": 2568,
+  "writes": 136,
+  "reads": 157,
+  "stalled_cycles": {
+    "aw": 6,
+    "w": 6,
+    "ar": 5,
+    "b": 254,
+    "r": 381
+  }
+}

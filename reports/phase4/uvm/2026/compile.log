@@ -1,0 +1,9 @@
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --binary --timing --assert --trace-vcd --coverage-user --timescale 1ns/1ps -j 2 -Wno-fatal +define+UVM_NO_DPI +incdir+/home/anuj/Downloads/AXI4-simulation/.tools/uvm/src +incdir+tb/uvm /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/uvm_pkg.sv -f /home/anuj/Downloads/AXI4-simulation/tb/uvm/files.f --top-module top --Mdir /home/anuj/Downloads/AXI4-simulation/build/uvm/obj
+make[1]: Entering directory '/home/anuj/Downloads/AXI4-simulation/build/uvm/obj'
+make[1]: Nothing to be done for 'default'.
+make[1]: Leaving directory '/home/anuj/Downloads/AXI4-simulation/build/uvm/obj'
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev v5.052
+- Verilator: Built from 0.000 MB sources in 0 modules, into 0.000 MB in 0 C++ files needing 0.000 MB
+- Verilator: Walltime 0.105 s (elab=0.000, cvt=0.000, bld=0.092); cpu 0.013 s on 2 threads; allocated 6.625 MB
+
+EXIT_STATUS=0

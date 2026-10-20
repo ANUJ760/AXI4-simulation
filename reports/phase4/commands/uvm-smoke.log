@@ -1,0 +1,56 @@
+$ make uvm-smoke SEED=42 JOBS=2
+python3 scripts/uvm_smoke.py --jobs 2 --seed 42
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --version
+exit=0; log=build/uvm-smoke/42/versions.log
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --binary --timing --assert --timescale 1ns/1ps -j 2 -Wno-fatal +define+UVM_NO_DPI +incdir+/home/anuj/Downloads/AXI4-simulation/.tools/uvm/src +incdir+tb/smoke /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/uvm_pkg.sv -f tb/smoke/files.f --top-module tb_top --Mdir /home/anuj/Downloads/AXI4-simulation/build/uvm-smoke/42/obj
+exit=0; log=build/uvm-smoke/42/compile.log
+$ /home/anuj/Downloads/AXI4-simulation/build/uvm-smoke/42/obj/Vtb_top +verilator+seed+42
+exit=0; log=build/uvm-smoke/42/run.log
+$ /home/anuj/Downloads/AXI4-simulation/build/uvm-smoke/42/obj/Vtb_top +verilator+seed+42
+UVM_INFO /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/base/uvm_root.svh(457) @ 0: reporter [UVM/RELNOTES] 
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  This implementation of the UVM Library deviates from the 1800.2-2020
+  standard.  See the DEVIATIONS.md file contained in the release
+  for more details.
+
+----------------------------------------------------------------
+Accellera:1800.2:UVM:2020.3.2
+
+All copyright owners for this kit are listed in NOTICE.txt
+All Rights Reserved Worldwide
+----------------------------------------------------------------
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_WARNING /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/base/uvm_test_runner.svh(207) @ 0: reporter [NO_DPI_USED] We are thinking of removing support for UVM_NO_DPI.  Please try this test without it and evaluate the impact
+UVM_INFO @ 0: reporter [RNTST] Running test smoke_test...
+UVM_INFO /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/base/uvm_traversal.svh(345) @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
+UVM_WARNING /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/base/uvm_traversal.svh(314) @ 0: reporter [NO_VISIT_CHECK] Because UVM_REGEX_NO_DPI is defined, no uvm component name constraints will be checked
+UVM_INFO tb/smoke/smoke_test.svh(26) @ 15000: uvm_test_top [SMOKE] UVM running: factory item and virtual interface checked
+UVM_INFO /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/base/uvm_report_server.svh(1009) @ 15000: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :    4
+UVM_WARNING :    2
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[NO_DPI_USED]     1
+[NO_VISIT_CHECK]     1
+[RNTST]     1
+[SMOKE]     1
+[UVM/COMP/NAMECHECK]     1
+[UVM/RELNOTES]     1
+
+- /home/anuj/Downloads/AXI4-simulation/.tools/uvm/src/base/uvm_test_runner.svh:297: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.052 2026-09-05
+- Verilator: $finish at 15ns; walltime 0.004 s; speed 3.727 us/s
+- Verilator: cpu 0.004 s on 1 threads; allocated 13 MB
+
+EXIT_STATUS=0
+
+UVM smoke PASS; seed=42
+
+EXIT_STATUS=0

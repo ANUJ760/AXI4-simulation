@@ -1,0 +1,9 @@
+$ yosys -Q -T -p 'read_verilog -sv "/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer_pkg.sv" "/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer.sv"; hierarchy -check -top axi4lite_timer'
+
+-- Running command `read_verilog -sv "/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer_pkg.sv" "/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer.sv"; hierarchy -check -top axi4lite_timer' --
+
+1. Executing Verilog-2005 frontend: /home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer_pkg.sv
+Parsing SystemVerilog input from `/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer_pkg.sv' to AST representation.
+/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer_pkg.sv:26: ERROR: syntax error, unexpected TOK_ID
+
+EXIT_STATUS=1

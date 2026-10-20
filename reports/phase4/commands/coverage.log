@@ -1,0 +1,11 @@
+$ make coverage
+python3 scripts/coverage.py
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator_coverage --write /home/anuj/Downloads/AXI4-simulation/build/coverage/merged.dat /home/anuj/Downloads/AXI4-simulation/build/uvm/timer_full_test/42/coverage.dat /home/anuj/Downloads/AXI4-simulation/build/uvm/timer_full_test/1042/coverage.dat /home/anuj/Downloads/AXI4-simulation/build/uvm/timer_full_test/2026/coverage.dat
+exit=0; log=build/coverage/merge.log
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator_coverage --write-info /home/anuj/Downloads/AXI4-simulation/build/coverage/merged.info /home/anuj/Downloads/AXI4-simulation/build/coverage/merged.dat
+exit=0; log=build/coverage/lcov.log
+Coverage: 47/47 tracked bins hit; missing=[]
+Simulator covergroup percentages: [{'seed': 42, 'groups': {'address': 100.0, 'write': 100.0, 'response': 100.0, 'event': 100.0}}, {'seed': 1042, 'groups': {'address': 100.0, 'write': 100.0, 'response': 100.0, 'event': 100.0}}, {'seed': 2026, 'groups': {'address': 100.0, 'write': 100.0, 'response': 100.0, 'event': 100.0}}]
+Non-vacuous SVA events: {'aw_stall_seen': 9, 'w_stall_seen': 9, 'ar_stall_seen': 9, 'b_stall_seen': 2426, 'r_stall_seen': 2516, 'b_transfer_seen': 534, 'r_transfer_seen': 651, 'reset_seen': 81}; missing=[]
+
+EXIT_STATUS=0

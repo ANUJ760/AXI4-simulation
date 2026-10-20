@@ -1,0 +1,11 @@
+$ make regress SEED=42 JOBS=2
+python3 scripts/uvm_regress.py --seed 42 --jobs 2
+$ /usr/bin/python3 scripts/uvm_test.py --test timer_full_test --seed 42 --jobs 2
+exit=0; log=build/uvm/regression/42.log
+$ /usr/bin/python3 scripts/uvm_test.py --test timer_full_test --seed 1042 --jobs 2
+exit=0; log=build/uvm/regression/1042.log
+$ /usr/bin/python3 scripts/uvm_test.py --test timer_full_test --seed 2026 --jobs 2
+exit=0; log=build/uvm/regression/2026.log
+UVM regression PASS seeds=[42, 1042, 2026]; summary=build/uvm/regression/summary.json
+
+EXIT_STATUS=0

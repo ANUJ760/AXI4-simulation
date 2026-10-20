@@ -1,0 +1,7 @@
+$ make test-uvm-negative SEED=42 JOBS=2
+python3 scripts/uvm_fault_check.py --seed 42 --jobs 2
+$ /usr/bin/python3 scripts/uvm_test.py --seed 42 --jobs 2 --inject-read-fault
+exit=1; log=build/uvm/timer_core_test/42/read-fault/check.log
+UVM negative control PASS seed=42; evidence=build/uvm/timer_core_test/42/read-fault
+
+EXIT_STATUS=0

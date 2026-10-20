@@ -1,0 +1,5 @@
+UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 35001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=4 AWREADY expected=00000001 actual=00000000
+UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 45001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=5 AWREADY expected=00000001 actual=00000000
+UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 55001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=6 AWREADY expected=00000001 actual=00000000
+UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 65001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=7 AWREADY expected=00000001 actual=00000000
+UVM_ERROR tb/uvm/timer_scoreboard.sv(25) @ 75001: uvm_test_top.env.scoreboard [MODEL_MISMATCH] edge=8 AWREADY expected=00000001 actual=00000000

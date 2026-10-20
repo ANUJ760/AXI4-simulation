@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "seed": 42,
+  "exit_status": 0,
+  "stage": "complete",
+  "rtl_source": "/home/anuj/Downloads/AXI4-simulation/build/synth/netlist.v",
+  "variant": "synthesized",
+  "waveform": "build/rtl/variants/synthesized/42/timer.vcd",
+  "groups": 19,
+  "checks": 2523,
+  "writes": 136,
+  "reads": 157,
+  "stalled_cycles": {
+    "aw": 6,
+    "w": 6,
+    "ar": 5,
+    "b": 253,
+    "r": 347
+  }
+}

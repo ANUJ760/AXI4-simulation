@@ -1,0 +1,3 @@
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator_coverage --write /home/anuj/Downloads/AXI4-simulation/build/coverage/merged.dat /home/anuj/Downloads/AXI4-simulation/build/uvm/timer_full_test/42/coverage.dat /home/anuj/Downloads/AXI4-simulation/build/uvm/timer_full_test/1042/coverage.dat /home/anuj/Downloads/AXI4-simulation/build/uvm/timer_full_test/2026/coverage.dat
+
+EXIT_STATUS=0

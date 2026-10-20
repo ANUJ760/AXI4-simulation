@@ -1,0 +1,15 @@
+$ make synth SEED=42 JOBS=2
+python3 scripts/synth.py --seed 42 --jobs 2
+$ yosys -V
+exit=0; log=build/synth/versions.log
+$ yosys -Q -T -p 'read_verilog -sv "/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer_pkg.sv" "/home/anuj/Downloads/AXI4-simulation/rtl/axi4lite_timer.sv"; hierarchy -check -top axi4lite_timer'
+exit=1; log=build/synth/native-frontend.log
+$ /usr/bin/python3 scripts/rtl_check.py test --rtl-source /home/anuj/Downloads/AXI4-simulation/build/synth/axi4lite_timer_flat.sv --variant synthesis-adapter --seed 42 --jobs 2
+exit=0; log=build/synth/adapter-verification.log
+$ yosys -Q -T -s /home/anuj/Downloads/AXI4-simulation/build/synth/synth.ys
+exit=0; log=build/synth/synth.log
+$ /usr/bin/python3 scripts/rtl_check.py test --rtl-source /home/anuj/Downloads/AXI4-simulation/build/synth/netlist.v --variant synthesized --seed 42 --jobs 2
+exit=0; log=build/synth/netlist-verification.log
+Synthesis and netlist verification PASS; result=build/synth/result.json
+
+EXIT_STATUS=0
