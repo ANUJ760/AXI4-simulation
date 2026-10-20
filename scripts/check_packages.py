@@ -16,6 +16,17 @@ def main():
                                 capture_output=True, text=True, timeout=20)
         print((result.stdout + result.stderr).strip())
         missing |= result.returncode != 0
+    if shutil.which("perl"):
+        # Fedora's minimal interpreter can exist without these launcher modules.
+        result = subprocess.run(
+            ["perl", "-MFindBin", "-MGetopt::Long", "-MIO::File", "-MPod::Usage",
+             "-MCwd", "-e", 'print "Verilator Perl runtime modules ready\\n"'],
+            capture_output=True, text=True, timeout=20)
+        print((result.stdout + result.stderr).strip())
+        missing |= result.returncode != 0
+    else:
+        print("MISSING: perl interpreter")
+        missing = True
     return int(missing)
 
 

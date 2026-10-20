@@ -45,6 +45,13 @@ def main():
         missing.append("pinned UVM")
     if not (uvm / "uvm_pkg.sv").is_file():
         missing.append("UVM package")
+    if shutil.which("perl"):
+        runtime = subprocess.run(
+            ["perl", "-MFindBin", "-MGetopt::Long", "-MIO::File", "-MPod::Usage",
+             "-MCwd", "-e", "exit 0"], capture_output=True, text=True, timeout=20)
+        if runtime.returncode:
+            print(runtime.stderr.strip())
+            missing.append("Verilator Perl modules")
     print(f"Environment {'BLOCKED' if missing else 'READY'}; missing={missing}")
     return bool(missing)
 

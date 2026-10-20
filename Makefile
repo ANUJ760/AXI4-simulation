@@ -11,7 +11,7 @@ packages:
 	$(PYTHON) scripts/check_packages.py
 fetch-toolchain:
 	$(PYTHON) scripts/fetch_toolchain.py
-toolchain: fetch-toolchain
+toolchain: packages fetch-toolchain
 	$(PYTHON) scripts/build_verilator.py --jobs $(JOBS)
 uvm-smoke:
 	$(PYTHON) scripts/uvm_smoke.py --jobs $(JOBS) --seed $(SEED)

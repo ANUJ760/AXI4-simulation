@@ -17,6 +17,10 @@ headless smoke execution; Icarus/Yosys/Z3 prepare subsequent RTL/synthesis/rando
 testing. `make env-check` lists the complete guide-required command inventory;
 `make packages` checks Fedora build/header packages without installing anything.
 
+Fedora may have `perl-interpreter` without the launcher module `FindBin`.
+`make packages` checks the Perl modules as well as RPM providers. If only
+FindBin is missing, `sudo dnf install -y perl-FindBin` is sufficient.
+
 All downloaded sources/install files live in ignored `.tools/`; compiler output
 and raw logs live in ignored `build/`. The bootstrap does not edit PATH or shell
 startup files. Make uses the local simulator directly. `JOBS=1` reduces memory
