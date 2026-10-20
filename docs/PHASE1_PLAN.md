@@ -20,8 +20,9 @@ W1C, active PERIOD snapshot and reset with buffered requests/responses.
 Define collision rules explicitly: reset dominates all effects; completion
 beats DONE clear; reads sample state at AR acceptance; writes commit after
 both buffered halves are available; invalid START must not change IRQ_EN.
-Resolve zero-strobe precedence against prohibited addresses using §§5–6 before
-implementation if the normative interpretation remains ambiguous.
+Apply §5 address and access permissions before strobe handling: prohibited or
+invalid writes return SLVERR; zero-strobe writes to legal writable registers
+return OKAY without effects. START validation applies only to a selected bit 0.
 
 Commands: `make lint`, `make test-rtl`. Acceptance: clean lint, all directed
 cases executed successfully, real evidence retained. Gate 2 adds the reusable
