@@ -3,7 +3,7 @@ import shutil
 import subprocess
 
 PACKAGES = ("gcc-c++", "zlib-devel", "python3-devel", "autoconf", "automake",
-            "flex", "bison", "help2man", "perl", "make")
+            "flex", "bison", "help2man", "perl-interpreter", "make")
 
 
 def main():
