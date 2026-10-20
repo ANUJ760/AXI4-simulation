@@ -25,6 +25,9 @@ def flatten_package(destination):
     destination.write_text(source.replace(import_line, declarations, 1))
 
 
+def quoted(path):
+    return '"' + str(path).replace('\\', '\\\\').replace('"', '\\"') + '"'
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", type=int, default=2)
@@ -44,8 +47,10 @@ def main():
     code = run_logged(["yosys", "-V"], build / "versions.log")
     if code:
         return code
-    native = "read_verilog -sv rtl/axi4lite_timer_pkg.sv rtl/axi4lite_timer.sv; hierarchy -check -top axi4lite_timer"
-    native_code = run_logged(["yosys", "-Q", "-T", "-p", native], build / "native-frontend.log")
+    native = (f"read_verilog -sv {quoted(ROOT / 'rtl/axi4lite_timer_pkg.sv')} "
+              f"{quoted(ROOT / 'rtl/axi4lite_timer.sv')}; hierarchy -check -top axi4lite_timer")
+    native_code = run_logged(["yosys", "-Q", "-T", "-p", native], build / "native-frontend.log", cwd=build)
+    result["native_frontend_exit"] = native_code
     result["native_package_supported"] = native_code == 0
     source = ROOT / "rtl/axi4lite_timer.sv"
     if native_code:
@@ -65,11 +70,9 @@ def main():
     result["stage"] = "synthesis"
     save()
     # All generated paths are controlled by this script, not shell interpolation.
-    def quoted(path):
-        return '"' + str(path).replace('\\', '\\\\').replace('"', '\\"') + '"'
     commands = []
     if native_code == 0:
-        commands.append("read_verilog -sv rtl/axi4lite_timer_pkg.sv")
+        commands.append(f"read_verilog -sv {quoted(ROOT / 'rtl/axi4lite_timer_pkg.sv')}")
     commands += [f"read_verilog -sv {quoted(source)}", "hierarchy -check -top axi4lite_timer",
                  "synth -top axi4lite_timer", "check -assert",
                  f"tee -o {quoted(build / 'stat.json')} stat -json",
@@ -77,7 +80,7 @@ def main():
                  f"write_verilog -noattr {quoted(build / 'netlist.v')}"]
     script = build / "synth.ys"
     script.write_text("\n".join(commands) + "\n")
-    code = run_logged(["yosys", "-Q", "-T", "-s", str(script)], build / "synth.log")
+    code = run_logged(["yosys", "-Q", "-T", "-s", str(script)], build / "synth.log", cwd=build)
     if code:
         return code
     result["statistics"] = json.loads((build / "stat.json").read_text())
