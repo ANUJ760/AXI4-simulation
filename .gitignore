@@ -4,3 +4,10 @@ __pycache__/
 *.py[cod]
 .env
 .agent-coordination/communication.lock
+
+# Local-only agent files & reports
+AGENTS.md
+AXI4_Lite_UVM_Agent_Guide_REPAIRED.docx
+.agent-coordination/
+reports/
+docs/PHASE*_PLAN.md
