@@ -1,11 +1,11 @@
 include config/tools.mk
 
 .DEFAULT_GOAL := help
-.PHONY: help env-check packages fetch-toolchain toolchain uvm-smoke lint test-rtl regress-rtl test-uvm
+.PHONY: help env-check packages fetch-toolchain toolchain uvm-smoke lint test-rtl regress-rtl test-uvm test-uvm-negative
 help:
 	@echo "Phase 0: env-check packages fetch-toolchain toolchain uvm-smoke"
 	@echo "Phase 1: lint test-rtl regress-rtl"
-	@echo "Phase 2: test-uvm TEST=timer_core_test"
+	@echo "Phase 2: test-uvm test-uvm-negative TEST=timer_core_test"
 	@echo "JOBS=$(JOBS) SEED=$(SEED); generated outputs: build/ and .tools/"
 env-check:
 	$(PYTHON) scripts/env_check.py
@@ -30,3 +30,6 @@ regress-rtl:
 TEST ?= timer_core_test
 test-uvm:
 	$(PYTHON) scripts/uvm_test.py --test $(TEST) --seed $(SEED) --jobs $(JOBS)
+
+test-uvm-negative:
+	$(PYTHON) scripts/uvm_fault_check.py --seed $(SEED) --jobs $(JOBS)

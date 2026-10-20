@@ -15,15 +15,20 @@ def main():
     parser.add_argument("--jobs", type=int, default=2)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--test", default="timer_core_test")
+    parser.add_argument("--inject-read-fault", action="store_true",
+                        help="negative control: flip one bit in observed valid RDATA")
     args = parser.parse_args()
     if args.jobs < 1 or not 1 <= args.seed <= 0xFFFFFFFF:
         parser.error("jobs must be positive; seed must be in 1..4294967295")
     if not re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", args.test):
         parser.error("test must be a SystemVerilog identifier")
-    build = ROOT / "build/uvm" / args.test / str(args.seed)
+    base = ROOT / "build/uvm" / args.test / str(args.seed)
+    build = base / "read-fault" if args.inject_read_fault else base
+    obj = base / "obj"
     build.mkdir(parents=True, exist_ok=True)
     result_file = build / "result.json"
-    result = {"passed": False, "seed": args.seed, "test": args.test, "stage": "preflight"}
+    result = {"passed": False, "seed": args.seed, "test": args.test, "stage": "preflight",
+              "injected_read_fault": args.inject_read_fault}
 
     def save_result():
         result_file.write_text(json.dumps(result, indent=2) + "\n")
@@ -57,7 +62,7 @@ def main():
                "--timescale", "1ns/1ps", "-j", str(args.jobs), "-Wno-fatal",
                "+define+UVM_NO_DPI", f"+incdir+{uvm}", "+incdir+tb/uvm",
                str(uvm / "uvm_pkg.sv"), "-f", "tb/uvm/files.f",
-               "--top-module", "top", "--Mdir", str(build / "obj")]
+               "--top-module", "top", "--Mdir", str(obj)]
     code = run_logged(command, build / "compile.log", timeout=1800)
     if code:
         result["exit_status"] = code
@@ -65,8 +70,10 @@ def main():
         return code
     result["stage"] = "run"
     save_result()
-    command = [str(build / "obj/Vtop"), f"+UVM_TESTNAME={args.test}",
+    command = [str(obj / "Vtop"), f"+UVM_TESTNAME={args.test}",
                f"+verilator+seed+{args.seed}", f"+WAVE={waveform}"]
+    if args.inject_read_fault:
+        command.append("+INJECT_READ_FAULT")
     code = run_logged(command, build / "run.log", timeout=60)
     output = (build / "run.log").read_text()
     print(output)
