@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 import re
 import shutil
-import subprocess
 
 from common import PINS, ROOT, run_logged
 from smoke_verdict import smoke_passed
@@ -26,7 +25,11 @@ def main():
             f"BLOCKED: require Verilator at {simulator} and UVM package in {uvm}\n")
         print(f"BLOCKED: missing simulator/UVM; see {build / 'preflight.log'}")
         return 1
-    version = subprocess.check_output([simulator, "--version"], text=True)
+    code = run_logged([simulator, "--version"], build / "versions.log", timeout=20)
+    if code:
+        print("BLOCKED: simulator launcher failed; inspect versions.log")
+        return code
+    version = (build / "versions.log").read_text()
     if not re.search(rf"\b{re.escape(PINS['verilator']['version'])}\b", version):
         print(f"BLOCKED: expected pinned simulator; found {version.strip()}")
         return 1
@@ -35,8 +38,8 @@ def main():
     if not version_file.is_file() or f'"Accellera:1800.2:{expected_uvm}"' not in version_file.read_text():
         print(f"BLOCKED: UVM_HOME must contain pinned {expected_uvm}")
         return 1
-    (build / "versions.log").write_text(
-        f"{version.strip()}\nUVM_HOME={uvm}\n{expected_uvm}\nSEED={args.seed}\n")
+    with (build / "versions.log").open("a") as log:
+        log.write(f"UVM_HOME={uvm}\n{expected_uvm}\nSEED={args.seed}\n")
     obj = build / "obj"
     compile_cmd = [simulator, "--binary", "--timing", "--assert", "-j", str(args.jobs),
                    "-Wno-fatal", "+define+UVM_NO_DPI", f"+incdir+{uvm}",
