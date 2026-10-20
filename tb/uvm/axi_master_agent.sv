@@ -123,7 +123,7 @@ class axi_monitor extends uvm_monitor;
   bit have_aw, have_w;
   word_t aw_address, w_data;
   strobe_t w_strobes;
-  longint unsigned edge_number;
+  longint unsigned edge_number = 0;
 
   function new(string name = "axi_monitor", uvm_component parent = null);
     super.new(name, parent);

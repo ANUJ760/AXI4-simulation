@@ -5,9 +5,9 @@ class timer_scoreboard extends uvm_component;
   bit pending_b, pending_r, in_reset;
   response_t expected_bresp, expected_rresp;
   word_t expected_rdata;
-  longint unsigned writes_issued, reads_issued, writes_checked, reads_checked;
-  longint unsigned cancelled_writes, cancelled_reads, irq_checks, reset_epochs;
-  longint unsigned completions;
+  longint unsigned writes_issued = 0, reads_issued = 0, writes_checked = 0, reads_checked = 0;
+  longint unsigned cancelled_writes = 0, cancelled_reads = 0, irq_checks = 0, reset_epochs = 0;
+  longint unsigned completions = 0;
 
   function new(string name = "timer_scoreboard", uvm_component parent = null);
     super.new(name, parent);
