@@ -89,7 +89,7 @@ def main():
     result["stage"] = "run"
     save_result()
     command = [str(obj / "Vtop"), f"+UVM_TESTNAME={args.test}",
-               f"+verilator+seed+{args.seed}", "+UVM_MAX_QUIT_COUNT=20,NO",
+               f"+verilator+seed+{args.seed}",
                f"+WAVE={waveform}",
                f"+verilator+coverage+file+{build / 'coverage.dat'}"]
     if args.inject_read_fault:

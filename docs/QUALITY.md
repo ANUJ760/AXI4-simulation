@@ -42,6 +42,11 @@ edited; its hash is checked after each case. The normal RTL is compiled and
 run again even if a mutant is not detected. Only a successful fixed rerun and
 three detected faults make the campaign pass.
 
+The guide's UVM_NO_DPI setting disables generic DPI-backed UVM command-line
+argument discovery. The library has an explicit UVM_TESTNAME fallback; seeds
+and traces use simulator/SystemVerilog plusargs. Do not rely on generic UVM
+command-line settings such as UVM_MAX_QUIT_COUNT in this configuration.
+
 UVM may exit the simulator normally after reporting errors. Python runners
 therefore require both process success and zero actual UVM errors/fatals before
 labeling a positive test PASS. Failed or injected-fault results never contribute
