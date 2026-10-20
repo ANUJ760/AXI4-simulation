@@ -250,6 +250,8 @@ module timer_tb;
     write_reg(ADDR_STATUS, 1); check(!bus.irq, "W1C clears IRQ");
     expect_reg(ADDR_STATUS, 0); expect_reg(ADDR_COUNT, 1);
     start_watched(3);
+    check_elapsed(last_write_cycle, 3);
+    repeat (3) cycle();
     expect_reg(ADDR_COUNT, 3); expect_reg(ADDR_STATUS, 1 << DONE_BIT);
 
     begin_case("period_snapshot");
