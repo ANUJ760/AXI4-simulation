@@ -11,6 +11,17 @@ import tempfile
 from common import ROOT, run_logged
 
 
+def retain_build(checkout, destination):
+    """Preserve diagnostics before deleting a temporary source/build tree."""
+    for source in (checkout / "build").rglob("*"):
+        relative = source.relative_to(checkout / "build")
+        if (source.is_file() and "obj" not in relative.parts
+                and source.suffix in {".log", ".json", ".vcd", ".dat"}):
+            output = destination / relative
+            output.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, output)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", type=int, default=2)
@@ -48,6 +59,7 @@ def main():
             code = run_logged(["make", target, *variables], build / f"{target}.log",
                               cwd=checkout, timeout=1900)
             if code:
+                retain_build(checkout, build / "failed-artifacts")
                 result["exit_status"] = code
                 result_file.write_text(json.dumps(result, indent=2) + "\n")
                 return code
@@ -63,6 +75,7 @@ def main():
             if checked.get("passed") is not True:
                 raise RuntimeError(f"Clean {name} test did not pass")
             result[name] = checked
+        retain_build(checkout, build / "artifacts")
         result.update(passed=True, stage="complete", exit_status=0)
     result_file.write_text(json.dumps(result, indent=2) + "\n")
     print(f"Clean source checkout PASS commit={result['source_commit']}; reused pinned tools explicitly")

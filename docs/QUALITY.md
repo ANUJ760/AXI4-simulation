@@ -13,6 +13,7 @@ make test-uvm-negative SEED=42 JOBS=2
 make mutation-checks SEED=42 JOBS=2
 make coverage
 make synth SEED=42 JOBS=2
+make clean-checkout SEED=42 JOBS=2
 ```
 
 `regress` executes the full UVM matrix on SEED, SEED+1000 and SEED+1984.
@@ -70,6 +71,16 @@ These checks support generic synthesizability and tested functional preservation
 They do not establish a process-specific frequency, area, power, timing closure,
 formal equivalence or hardware implementation. The native frontend failure and
 both passing verification transcripts remain available in the synthesis logs.
+
+## Clean source checkout
+
+`clean-checkout` extracts `git archive HEAD` into a temporary directory with no
+.tools/ or build/ tree, then executes environment inspection, lint, the directed
+RTL test and the full UVM test. It reuses the explicitly named pinned installed
+toolchain; it does not reuse simulator binaries or objects. The source commit,
+actual commands, verdicts and diagnostics are retained under build/clean-checkout/.
+The temporary source/build tree is removed afterward. This is a clean source
+and compilation check, not a claim that a fresh operating system was provisioned.
 
 ## Execution and coordination
 
