@@ -22,6 +22,17 @@ module timer_tb;
   longint unsigned cycles = 0, last_write_cycle, last_read_cycle;
   int unsigned checks = 0, groups = 0, writes = 0, reads = 0;
   string scenario = "bringup";
+  int unsigned aw_stalls = 0, w_stalls = 0, ar_stalls = 0;
+  int unsigned b_stalls = 0, r_stalls = 0;
+  always @(posedge clk) begin
+    if (bus.aresetn) begin
+      if (bus.awvalid && !bus.awready) aw_stalls++;
+      if (bus.wvalid && !bus.wready) w_stalls++;
+      if (bus.arvalid && !bus.arready) ar_stalls++;
+      if (bus.bvalid && !bus.bready) b_stalls++;
+      if (bus.rvalid && !bus.rready) r_stalls++;
+    end
+  end
 
   // A pin-only timing oracle: BVALID marks the documented commit edge.
   // write_reg independently verifies that edge against accepted AW/W requests.
@@ -245,6 +256,44 @@ module timer_tb;
     check(last_read_cycle == last_write_cycle, "AR overlaps write commit edge");
     expect_reg(ADDR_PERIOD, 55);
 
+    begin_case("manager_request_stalls");
+    // Hold the first responses while offering the next requests. AXI permits
+    // VALID to be offered before READY; payloads must remain stable until accepted.
+    @(negedge clk);
+    bus.awaddr = ADDR_PERIOD; bus.awvalid = 1;
+    bus.wdata = 111; bus.wstrb = 4'hf; bus.wvalid = 1;
+    cycle();
+    @(negedge clk); bus.awvalid = 0; bus.wvalid = 0;
+    cycle(); check(bus.bvalid, "first queued write response");
+    @(negedge clk);
+    bus.awaddr = ADDR_PERIOD; bus.awvalid = 1;
+    bus.wdata = 222; bus.wvalid = 1;
+    bus.araddr = ADDR_PERIOD; bus.arvalid = 1;
+    cycle();
+    check(bus.rvalid && bus.rdata == 111, "read while first B is stalled");
+    @(negedge clk); bus.araddr = ADDR_ID;
+    repeat (4) begin
+      cycle();
+      check(!bus.awready && !bus.wready && !bus.arready, "next requests stall");
+    end
+    @(negedge clk); bus.bready = 1; bus.rready = 1;
+    cycle();
+    check(!bus.bvalid && !bus.rvalid, "first response pair consumed");
+    cycle();
+    check(bus.rvalid && bus.rdata == TIMER_ID, "second AR accepted after stall");
+    @(negedge clk);
+    bus.awvalid = 0; bus.wvalid = 0; bus.arvalid = 0;
+    bus.bready = 0; bus.rready = 0;
+    cycle();
+    check(bus.bvalid && bus.bresp == RESP_OKAY, "second write commits once");
+    check(bus.rvalid && bus.rresp == RESP_OKAY, "second read response retained");
+    @(negedge clk); bus.bready = 1; bus.rready = 1;
+    cycle();
+    check(!bus.bvalid && !bus.rvalid, "second response pair consumed");
+    @(negedge clk); bus.bready = 0; bus.rready = 0;
+    writes += 2; reads += 2;
+    expect_reg(ADDR_PERIOD, 222);
+
     begin_case("period_zero_start");
     write_reg(ADDR_PERIOD, 0);
     write_reg(ADDR_CONTROL, 1, 4'hf, RESP_SLVERR);
@@ -327,7 +376,28 @@ module timer_tb;
       expect_reg(ADDR_STATUS, 0); expect_reg(ADDR_COUNT, 0);
     end
 
+    begin_case("randomized_stalls");
+    expected = 0;
+    for (int transaction = 0; transaction < 64; transaction++) begin : random_transactions
+      strobe_t strobes;
+      int unsigned aw_delay, w_delay, b_delay, r_delay;
+      // Generate each choice separately so expression evaluation order cannot
+      // change the random stream's meaning between simulator implementations.
+      data = $urandom;
+      strobes = strobe_t'($urandom_range(15, 0));
+      aw_delay = $urandom_range(6, 0); w_delay = $urandom_range(6, 0);
+      b_delay = $urandom_range(8, 0); r_delay = $urandom_range(8, 0);
+      write_reg(ADDR_PERIOD, data, strobes, RESP_OKAY, aw_delay, w_delay, b_delay);
+      for (int lane = 0; lane < 4; lane++)
+        if (strobes[lane]) expected[lane*8 +: 8] = data[lane*8 +: 8];
+      expect_reg(ADDR_PERIOD, expected, RESP_OKAY, r_delay);
+    end
+
+    check(aw_stalls > 0 && w_stalls > 0 && ar_stalls > 0 &&
+          b_stalls > 0 && r_stalls > 0, "all five stalled-channel assertions exercised");
     check(!timer_watch && !arm_timer_watch, "no unfinished timer check after reset");
+    $display("STALLS aw=%0d w=%0d ar=%0d b=%0d r=%0d",
+             aw_stalls, w_stalls, ar_stalls, b_stalls, r_stalls);
     $display("RTL RESULT PASS seed=%0d groups=%0d checks=%0d writes=%0d reads=%0d",
              seed, groups, checks, writes, reads);
     $finish;
