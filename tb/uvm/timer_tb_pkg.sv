@@ -9,6 +9,7 @@ package timer_tb_pkg;
   `include "timer_scoreboard.sv"
   `include "axi_master_agent.sv"
   `include "timer_sequences.sv"
+  `include "timer_coverage.sv"
   `include "timer_env.sv"
   `include "timer_tests.sv"
 endpackage

@@ -24,7 +24,7 @@ def main():
         parser.error("test must be a SystemVerilog identifier")
     base = ROOT / "build/uvm" / args.test / str(args.seed)
     build = base / "read-fault" if args.inject_read_fault else base
-    obj = base / "obj"
+    obj = ROOT / "build/uvm/obj"
     build.mkdir(parents=True, exist_ok=True)
     result_file = build / "result.json"
     result = {"passed": False, "seed": args.seed, "test": args.test, "stage": "preflight",
@@ -58,7 +58,7 @@ def main():
         log.write(f"UVM_HOME={uvm}\nUVM_VERSION={PINS['uvm']['version']}\nSEED={args.seed}\n")
     result["stage"] = "compile"
     save_result()
-    command = [simulator, "--binary", "--timing", "--assert", "--trace-vcd",
+    command = [simulator, "--binary", "--timing", "--assert", "--trace-vcd", "--coverage-user",
                "--timescale", "1ns/1ps", "-j", str(args.jobs), "-Wno-fatal",
                "+define+UVM_NO_DPI", f"+incdir+{uvm}", "+incdir+tb/uvm",
                str(uvm / "uvm_pkg.sv"), "-f", "tb/uvm/files.f",
@@ -71,7 +71,8 @@ def main():
     result["stage"] = "run"
     save_result()
     command = [str(obj / "Vtop"), f"+UVM_TESTNAME={args.test}",
-               f"+verilator+seed+{args.seed}", f"+WAVE={waveform}"]
+               f"+verilator+seed+{args.seed}", f"+WAVE={waveform}",
+               f"+verilator+coverage+file+{build / 'coverage.dat'}"]
     if args.inject_read_fault:
         command.append("+INJECT_READ_FAULT")
     code = run_logged(command, build / "run.log", timeout=60)
@@ -89,6 +90,11 @@ def main():
               and all(scoreboard[key] > 0 for key in ("writes", "reads", "irq_checks"))
               and "UVM bus sequences completed" in output
               and waveform.is_file() and waveform.stat().st_size > 0)
+    coverage_bins = dict((name, int(hits)) for name, hits in
+                         re.findall(r"\[COVER_BIN\] name=(\S+) hits=(\d+)", output))
+    covergroups = dict((name, float(percent)) for name, percent in
+                       re.findall(r"\[COVERGROUP\] name=(\S+) percent=([0-9.]+)", output))
+    result.update(coverage_bins=coverage_bins, covergroups=covergroups)
     result.update(passed=passed, stage="complete", exit_status=code,
                   uvm_report=report_counts(output), scoreboard=scoreboard,
                   waveform=str(waveform.relative_to(ROOT)))
