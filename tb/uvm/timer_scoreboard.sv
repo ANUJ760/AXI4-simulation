@@ -2,7 +2,7 @@ class timer_scoreboard extends uvm_component;
   `uvm_component_utils(timer_scoreboard)
   uvm_analysis_imp #(axi_cycle, timer_scoreboard) observations;
   timer_ref_model model;
-  bit pending_b, pending_r, in_reset;
+  bit pending_b, pending_r, in_reset, buffered_aw, buffered_w;
   response_t expected_bresp, expected_rresp;
   word_t expected_rdata;
   longint unsigned writes_issued = 0, reads_issued = 0, writes_checked = 0, reads_checked = 0;
@@ -33,9 +33,10 @@ class timer_scoreboard extends uvm_component;
       in_reset = 1;
       if (pending_b) cancelled_writes++;
       if (pending_r) cancelled_reads++;
-      pending_b = 0; pending_r = 0;
+      pending_b = 0; pending_r = 0; buffered_aw = 0; buffered_w = 0;
       model.reset();
-      if (sample.post_bvalid || sample.post_rvalid || sample.post_irq)
+      if (sample.post_bvalid || sample.post_rvalid || sample.post_irq ||
+          sample.post_awready || sample.post_wready || sample.post_arready)
         `uvm_error("RESET_OUTPUT", "Response or IRQ survived reset")
       return;
     end
@@ -79,7 +80,20 @@ class timer_scoreboard extends uvm_component;
       expected_bresp = response;
       pending_b = 1;
       writes_issued++;
+      buffered_aw = 0; buffered_w = 0;
     end
+    if (sample.aw_fire) buffered_aw = 1;
+    if (sample.w_fire) buffered_w = 1;
+
+    // Free space predicts registered READY independently of manager VALID.
+    if (sample.post_awready !== (!buffered_aw && !pending_b))
+      mismatch("AWREADY", sample.edge_number, 32'(!buffered_aw && !pending_b),
+               32'(sample.post_awready));
+    if (sample.post_wready !== (!buffered_w && !pending_b))
+      mismatch("WREADY", sample.edge_number, 32'(!buffered_w && !pending_b),
+               32'(sample.post_wready));
+    if (sample.post_arready !== !pending_r)
+      mismatch("ARREADY", sample.edge_number, 32'(!pending_r), 32'(sample.post_arready));
 
     // Check availability and payload every edge, including stalled responses.
     if (sample.post_bvalid !== pending_b)

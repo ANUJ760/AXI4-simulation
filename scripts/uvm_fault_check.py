@@ -15,6 +15,10 @@ def main():
     if args.jobs < 1 or not 1 <= args.seed <= 0xFFFFFFFF:
         parser.error("jobs must be positive; seed must be in 1..4294967295")
     build = ROOT / "build/uvm/timer_core_test" / str(args.seed) / "read-fault"
+    build.mkdir(parents=True, exist_ok=True)
+    (build / "negative-result.json").write_text(json.dumps({"detected": False}) + "\n")
+    (build / "result.json").unlink(missing_ok=True)
+    (build / "run.log").unlink(missing_ok=True)
     command = [sys.executable, "scripts/uvm_test.py", "--seed", str(args.seed),
                "--jobs", str(args.jobs), "--inject-read-fault"]
     code = run_logged(command, build / "check.log", timeout=1900)

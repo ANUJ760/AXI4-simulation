@@ -173,6 +173,8 @@ class axi_monitor extends uvm_monitor;
         end
       end
       #1ps;
+      sample.post_awready = vif.awready; sample.post_wready = vif.wready;
+      sample.post_arready = vif.arready;
       sample.post_bvalid = vif.bvalid; sample.post_bresp = vif.bresp;
       sample.post_rvalid = vif.rvalid; sample.post_rresp = vif.rresp;
       sample.post_rdata = vif.rdata; sample.post_irq = vif.irq;

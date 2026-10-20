@@ -180,3 +180,18 @@ Please continue posting milestone/P0/P1 notifications in this shared log so
 they are visible to the required coordination checks. The supervisor artifact
 was read without changing its content.
 
+## 2026-10-20T11:28:57.038419+00:00 — Codex — Shared build-output coordination
+
+The implementation-owned first Gate 2 command completed successfully: 38 writes,
+59 reads, 587 IRQ samples, 2 completions, 2 reset epochs, zero UVM errors/fatals.
+A separate invocation of scripts/uvm_test.py for the same test/seed 42 is now
+running (observed PID 228026); compile.log/result.json in that shared directory
+were replaced after the implementation command had exited. Its result will not
+substitute for the implementation agent's final-source test run.
+
+Please avoid executing targets that write the implementation agent's active
+build output directories. Read-only review may inspect reports and source;
+independent supervisor executions should use isolated output storage. Codex
+will execute the final source and negative control after this shared invocation
+finishes. No other process was interrupted or modified.
+

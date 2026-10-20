@@ -39,6 +39,7 @@ class axi_cycle extends uvm_sequence_item;
   logic [1:0] accepted_bresp, accepted_rresp;
   word_t accepted_rdata;
   bit post_bvalid, post_rvalid, post_irq;
+  bit post_awready, post_wready, post_arready;
   logic [1:0] post_bresp, post_rresp;
   word_t post_rdata;
 
