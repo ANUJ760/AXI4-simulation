@@ -1,0 +1,12 @@
+{
+  "detected": true,
+  "seed": 42,
+  "test_command_exit": 1,
+  "uvm_report": {
+    "UVM_INFO": 12,
+    "UVM_WARNING": 2,
+    "UVM_ERROR": 242,
+    "UVM_FATAL": 0
+  },
+  "fault": "testbench RDATA bit flip"
+}
