@@ -1,0 +1,4 @@
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator --version
+Verilator 5.052 2026-09-05 rev v5.052
+
+EXIT_STATUS=0
