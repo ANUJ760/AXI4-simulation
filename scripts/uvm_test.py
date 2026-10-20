@@ -1,5 +1,6 @@
 """Compile and execute the real timer UVM environment with strict evidence checks."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -8,6 +9,7 @@ import shutil
 
 from common import PINS, ROOT, run_logged
 from uvm_report import clean_report, report_counts
+from rtl_mutations import MUTATIONS, write_mutant
 
 
 def main():
@@ -17,18 +19,26 @@ def main():
     parser.add_argument("--test", default="timer_core_test")
     parser.add_argument("--inject-read-fault", action="store_true",
                         help="negative control: flip one bit in observed valid RDATA")
+    parser.add_argument("--mutation", choices=tuple(MUTATIONS))
     args = parser.parse_args()
     if args.jobs < 1 or not 1 <= args.seed <= 0xFFFFFFFF:
         parser.error("jobs must be positive; seed must be in 1..4294967295")
     if not re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", args.test):
         parser.error("test must be a SystemVerilog identifier")
+    if args.mutation and args.inject_read_fault:
+        parser.error("RTL mutation and public-bus corruption are separate controls")
     base = ROOT / "build/uvm" / args.test / str(args.seed)
     build = base / "read-fault" if args.inject_read_fault else base
+    if args.mutation:
+        build = base / "mutations" / args.mutation
     obj = ROOT / "build/uvm/obj"
     build.mkdir(parents=True, exist_ok=True)
     result_file = build / "result.json"
     result = {"passed": False, "seed": args.seed, "test": args.test, "stage": "preflight",
-              "injected_read_fault": args.inject_read_fault}
+              "injected_read_fault": args.inject_read_fault, "mutation": args.mutation}
+    result["source_sha256"] = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                               for folder in ("rtl", "tb")
+                               for p in sorted((ROOT / folder).rglob("*.sv"))}
 
     def save_result():
         result_file.write_text(json.dumps(result, indent=2) + "\n")
@@ -56,12 +66,20 @@ def main():
         return 1
     with (build / "versions.log").open("a") as log:
         log.write(f"UVM_HOME={uvm}\nUVM_VERSION={PINS['uvm']['version']}\nSEED={args.seed}\n")
+    file_list = ROOT / "tb/uvm/files.f"
+    if args.mutation:
+        result["mutant"] = write_mutant(args.mutation, build)
+        lines = file_list.read_text().splitlines()
+        lines = [str(build / "axi4lite_timer.sv") if line == "rtl/axi4lite_timer.sv"
+                 else line for line in lines]
+        file_list = build / "files.f"
+        file_list.write_text("\n".join(lines) + "\n")
     result["stage"] = "compile"
     save_result()
     command = [simulator, "--binary", "--timing", "--assert", "--trace-vcd", "--coverage-user",
                "--timescale", "1ns/1ps", "-j", str(args.jobs), "-Wno-fatal",
                "+define+UVM_NO_DPI", f"+incdir+{uvm}", "+incdir+tb/uvm",
-               str(uvm / "uvm_pkg.sv"), "-f", "tb/uvm/files.f",
+               str(uvm / "uvm_pkg.sv"), "-f", str(file_list),
                "--top-module", "top", "--Mdir", str(obj)]
     code = run_logged(command, build / "compile.log", timeout=1800)
     if code:
@@ -71,7 +89,8 @@ def main():
     result["stage"] = "run"
     save_result()
     command = [str(obj / "Vtop"), f"+UVM_TESTNAME={args.test}",
-               f"+verilator+seed+{args.seed}", f"+WAVE={waveform}",
+               f"+verilator+seed+{args.seed}", "+UVM_MAX_QUIT_COUNT=20,NO",
+               f"+WAVE={waveform}",
                f"+verilator+coverage+file+{build / 'coverage.dat'}"]
     if args.inject_read_fault:
         command.append("+INJECT_READ_FAULT")
