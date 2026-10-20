@@ -41,7 +41,8 @@ def main():
     with (build / "versions.log").open("a") as log:
         log.write(f"UVM_HOME={uvm}\n{expected_uvm}\nSEED={args.seed}\n")
     obj = build / "obj"
-    compile_cmd = [simulator, "--binary", "--timing", "--assert", "-j", str(args.jobs),
+    compile_cmd = [simulator, "--binary", "--timing", "--assert",
+                   "--timescale", "1ns/1ps", "-j", str(args.jobs),
                    "-Wno-fatal", "+define+UVM_NO_DPI", f"+incdir+{uvm}",
                    "+incdir+tb/smoke", str(uvm / "uvm_pkg.sv"),
                    "-f", "tb/smoke/files.f", "--top-module", "tb_top",

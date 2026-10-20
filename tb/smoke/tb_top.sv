@@ -1,5 +1,7 @@
 `include "uvm_macros.svh"
 package smoke_pkg;
+  timeunit 1ns;
+  timeprecision 1ps;
   import uvm_pkg::*;
   `include "smoke_item.svh"
   `include "smoke_test.svh"
