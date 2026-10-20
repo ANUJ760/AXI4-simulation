@@ -1,0 +1,29 @@
+name: UVM toolchain gate
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    container: fedora:44
+    timeout-minutes: 60
+    steps:
+      - name: Install guide dependencies
+        run: >-
+          dnf install -y git gcc gcc-c++ make autoconf automake flex bison
+          help2man perl zlib-devel python3 python3-devel iverilog yosys z3 curl tar
+      - uses: actions/checkout@v4
+      - name: Inspect development packages
+        run: make packages
+      - name: Build pinned toolchain
+        run: make toolchain JOBS=2
+      - name: Inspect environment
+        run: make env-check
+      - name: Execute actual UVM smoke
+        run: make uvm-smoke SEED=42 JOBS=2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: uvm-gate-logs
+          path: build/**/*.log
+          if-no-files-found: warn
