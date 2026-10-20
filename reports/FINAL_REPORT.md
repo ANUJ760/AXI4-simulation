@@ -226,7 +226,9 @@ Start with [Fedora setup](../docs/SETUP.md), then execute the full command list 
 [QUALITY.md](../docs/QUALITY.md). `make toolchain` fetches and verifies exact
 upstream identities. No pip/npm framework or virtual environment is required.
 Generated tools stay in .tools/ and compilation/traces in build/; both are
-ignored. Selected actual evidence is versioned with integrity manifests.
+ignored. Selected actual evidence is versioned with integrity manifests; the
+[project-wide integrity check](INTEGRITY_CHECK.json) also validates all artifact
+sets, current script hashes and local documentation links.
 
 The sole implementation agent owns code and Git state. Supervisor feedback is
 read and assessed through the flock-protected append-only communication log,

@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "manifests": [
+    {
+      "manifest": "reports/phase0/SHA256SUMS.json",
+      "files_verified": 15,
+      "passed": true
+    },
+    {
+      "manifest": "reports/phase1/SHA256SUMS.json",
+      "files_verified": 18,
+      "passed": true
+    },
+    {
+      "manifest": "reports/phase2/SHA256SUMS.json",
+      "files_verified": 15,
+      "passed": true
+    },
+    {
+      "manifest": "reports/phase3/SHA256SUMS.json",
+      "files_verified": 24,
+      "passed": true
+    },
+    {
+      "manifest": "reports/phase4/SHA256SUMS.json",
+      "files_verified": 108,
+      "passed": true
+    }
+  ],
+  "current_script_hashes_verified": 18,
+  "local_document_links": "PASS"
+}
