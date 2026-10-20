@@ -105,7 +105,7 @@ class timer_scoreboard extends uvm_component;
     if (writes_checked + cancelled_writes != writes_issued ||
         reads_checked + cancelled_reads != reads_issued)
       `uvm_error("ACCOUNTING", "Issued/checked/canceled transaction totals differ")
-    if (!writes_checked || !reads_checked || !irq_checks)
+    if (writes_checked == 0 || reads_checked == 0 || irq_checks == 0)
       `uvm_error("NO_ACTIVITY", "Missing checked writes, reads or IRQ samples")
   endfunction
 
