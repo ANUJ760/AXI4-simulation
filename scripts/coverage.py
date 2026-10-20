@@ -1,6 +1,7 @@
 """Summarize actual covergroup results and observed bins from the last regression."""
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 
@@ -53,14 +54,25 @@ def main():
                        str(build / "merged.dat")], build / "lcov.log")
     if code:
         return code
+    sva_hits = {}
+    for line in (build / "merged.dat").read_text().splitlines():
+        if "tb/axi_assertions.sv" in line:
+            label = re.search(r"\x01o\x02([^\x01']+)", line)
+            if label:
+                sva_hits[label[1]] = int(line.rsplit(" ", 1)[1])
+    required_sva = {"aw_stall_seen", "w_stall_seen", "ar_stall_seen", "b_stall_seen",
+                    "r_stall_seen", "b_transfer_seen", "r_transfer_seen", "reset_seen"}
+    missing_sva = sorted(name for name in required_sva if sva_hits.get(name, 0) == 0)
     missing = sorted(name for name, hits in bins.items() if hits == 0)
-    result = {"passed": not missing, "planned_bins": len(bins),
+    result = {"passed": not missing and not missing_sva,
+              "sva_cover_hits": sva_hits, "missing_sva_events": missing_sva, "planned_bins": len(bins),
               "hit_bins": len(bins) - len(missing), "missing_bins": missing,
               "observed_bin_hits": bins, "per_run_simulator_covergroups": percentages,
               "exclusions": plan["exclusions"]}
     output.write_text(json.dumps(result, indent=2) + "\n")
     print(f"Coverage: {result['hit_bins']}/{len(bins)} tracked bins hit; missing={missing}")
     print(f"Simulator covergroup percentages: {percentages}")
+    print(f"Non-vacuous SVA events: {sva_hits}; missing={missing_sva}")
     return 0 if result["passed"] else 1
 
 
