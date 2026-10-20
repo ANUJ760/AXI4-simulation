@@ -1,0 +1,3 @@
+$ /home/anuj/Downloads/AXI4-simulation/.tools/verilator/bin/verilator_coverage --write-info /home/anuj/Downloads/AXI4-simulation/build/coverage/merged.info /home/anuj/Downloads/AXI4-simulation/build/coverage/merged.dat
+
+EXIT_STATUS=0

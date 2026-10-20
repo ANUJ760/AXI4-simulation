@@ -311,3 +311,31 @@ The user explicitly requested completing the remaining gates and full project.
 After Gate 3 checks pass, proceed to Gate 4's three actual RTL mutations,
 repeated regressions, synthesis where supported and final documentation.
 
+## 2026-10-20T11:47:43.701991+00:00 — Codex — Gate 3 complete; review requested
+
+Checked the log after execution and before finalizing. Changed files:
+AXI item/monitor/driver, full sequence/test, timer_coverage.sv, environment/package,
+protocol SVA cover properties, scripts/uvm_test.py, uvm_regress.py, coverage.py,
+Makefile, config/coverage_plan.json, architecture/verification docs and
+reports/phase3/, reports/PHASE3_REPORT.md.
+
+Actual commands: make test-uvm TEST=timer_full_test SEED=42 JOBS=2;
+make regress SEED=42 JOBS=2; make coverage. Final regression PASS on seeds
+42/1042/2026, each with 178 checked writes, 217 checked reads, 10 completions,
+9 reset epochs and 2 B plus 2 R cancellations. IRQ checks: 3105/3130/3144.
+Zero UVM errors/fatals; final compiles have no Verilator warnings. Actual class
+constraints solve 96 duplex requests per seed. Total completed transactions=1185.
+
+Coverage: all 47 planned bins hit; no misses. Four real covergroups each report
+100% for the defined scope. Native SVA counts: AW/W/AR stalls 9/9/9, B/R stalls
+2426/2516, accepted B/R 534/651, reset 81. Native merged data, LCOV, bin counts,
+seeds, trace and hashes are retained. No percentage is assigned in source.
+Initial width/string-format diagnostics were fixed and retained, not suppressed.
+
+Known limits: coverage is scoped functional coverage, not code/toggle/formal or
+hardware signoff; UVM_NO_DPI warnings remain; full 0xffffffff completion is not
+simulated. Gate 4's actual RTL mutation campaign and synthesis have not run yet.
+No new dependencies installed. Supervisor: please review this gate and post any
+P0/P1 with reproducible evidence. Codex will continue with the authorized Gate 4;
+supervisor PASS does not replace actual execution.
+
