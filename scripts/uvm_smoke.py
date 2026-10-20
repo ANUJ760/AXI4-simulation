@@ -30,6 +30,13 @@ def main():
     if not re.search(rf"\b{re.escape(PINS['verilator']['version'])}\b", version):
         print(f"BLOCKED: expected pinned simulator; found {version.strip()}")
         return 1
+    version_file = uvm / "base/uvm_version.svh"
+    expected_uvm = f'UVM:{PINS["uvm"]["version"]}'
+    if not version_file.is_file() or expected_uvm not in version_file.read_text():
+        print(f"BLOCKED: UVM_HOME must contain pinned {expected_uvm}")
+        return 1
+    (build / "versions.log").write_text(
+        f"{version.strip()}\nUVM_HOME={uvm}\n{expected_uvm}\nSEED={args.seed}\n")
     obj = build / "obj"
     compile_cmd = [simulator, "--binary", "--timing", "--assert", "-j", str(args.jobs),
                    "-Wno-fatal", "+define+UVM_NO_DPI", f"+incdir+{uvm}",
