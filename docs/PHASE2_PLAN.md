@@ -1,5 +1,7 @@
 # Phase 2: real UVM bus agent and independent checking
 
+Status: implemented and executed; see ../reports/PHASE2_REPORT.md.
+
 Prerequisites: Gate 0's real UVM smoke and Gate 1's RTL lint/directed tests pass.
 Read the shared coordination log before starting. Follow the DOCX Part A,
 `RTL_BEHAVIOR.md` and the guide's Gate 2 acceptance criterion.

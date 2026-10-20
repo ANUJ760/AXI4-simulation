@@ -16,8 +16,7 @@ make regress-rtl RTL_SEEDS="42 1042 2026" JOBS=2
 ```
 
 No pip packages or virtual environment are needed. GTKWave is optional for
-headless smoke execution; Icarus/Yosys/Z3 prepare subsequent RTL/synthesis/random
-testing. `make env-check` lists the complete guide-required command inventory;
+headless execution; Icarus/Yosys/Z3 support RTL/synthesis/random testing. `make env-check` lists the complete guide-required command inventory;
 `make packages` checks Fedora build/header packages without installing anything.
 
 Fedora may have `perl-interpreter` without the launcher module `FindBin`.
@@ -49,6 +48,11 @@ VCD tracing requires no additional development package. An FST build was tried
 and failed because `lz4.h` was absent; FST is not required by the current targets.
 No LZ4 package was installed for this project. Failed compile/run commands stop
 the regression; the structured verdict is cleared before each test attempt.
+
+For the complete UVM, mutation, coverage, synthesis and clean-checkout stack,
+follow [QUALITY.md](QUALITY.md). The clean-checkout target reuses the pinned
+installed toolchain but compiles the committed RTL/UVM from empty build storage.
+All verification targets execute real tools and fail on unexpected errors.
 
 References: [Verilator release notes](https://verilator.org/guide/latest/changes.html)
 and [Accellera UVM downloads](https://www.accellera.org/downloads/standards/uvm).
