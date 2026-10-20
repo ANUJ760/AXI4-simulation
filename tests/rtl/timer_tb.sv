@@ -39,7 +39,7 @@ module timer_tb;
         arm_timer_watch = 0;
       end
       if (timer_watch) begin
-        if (cycles < timer_start + watched_period) begin
+        if (cycles < timer_start + 64'(watched_period)) begin
           if (bus.irq !== 1'b0) $fatal(1, "early IRQ at cycle %0d", cycles);
         end else begin
           if (bus.irq !== 1'b1) $fatal(1, "late/missing IRQ at cycle %0d", cycles);
@@ -172,14 +172,14 @@ module timer_tb;
     read_reg(ADDR_COUNT, actual);
     // Reads sample BEFORE the acceptance edge's timer increment.
     elapsed = last_read_cycle > start_edge ? last_read_cycle - start_edge - 1 : 0;
-    expected = elapsed >= period ? period : word_t'(elapsed);
+    expected = elapsed >= 64'(period) ? period : word_t'(elapsed);
     check(actual == expected, $sformatf("COUNT from observed start edge expected=%0d got=%0d",
                                        expected, actual));
   endtask
 
   initial begin : directed_tests
     word_t expected, data;
-    word_t invalid[6] = '{32'h1, 32'h2, 32'h3, 32'h14, 32'h10000004, 32'hfffffffc};
+    static word_t invalid[6] = '{32'h1, 32'h2, 32'h3, 32'h14, 32'h10000004, 32'hfffffffc};
     longint unsigned start_edge;
     int unsigned seed;
     seed = 42;
