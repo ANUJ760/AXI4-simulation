@@ -338,6 +338,14 @@ module timer_tb;
     expect_reg(ADDR_STATUS, 1 << DONE_BIT);
     check(bus.irq, "new completion dominates simultaneous DONE clear");
 
+    begin_case("busy_start_completion_collision");
+    start_watched(4); start_edge = last_write_cycle;
+    write_reg(ADDR_CONTROL, 1 << START_BIT, 4'hf, RESP_SLVERR);
+    check(last_write_cycle == start_edge + 4, "rejected START coincides with completion");
+    expect_reg(ADDR_CONTROL, 1 << IRQ_EN_BIT);
+    expect_reg(ADDR_STATUS, 1 << DONE_BIT);
+    check(bus.irq, "rejected START cannot alter IRQ_EN or completion");
+
     begin_case("read_completion_collision");
     start_watched(3); start_edge = last_write_cycle;
     expect_reg(ADDR_STATUS, 1 << BUSY_BIT);
@@ -401,6 +409,14 @@ module timer_tb;
     $display("RTL RESULT PASS seed=%0d groups=%0d checks=%0d writes=%0d reads=%0d",
              seed, groups, checks, writes, reads);
     $finish;
+  end
+
+  initial begin : waveform
+    string path;
+    if ($value$plusargs("WAVE=%s", path)) begin
+      $dumpfile(path);
+      $dumpvars(0, timer_tb);
+    end
   end
 
   initial begin
