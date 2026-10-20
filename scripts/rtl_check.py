@@ -22,27 +22,49 @@ def main():
     if args.mode == "lint":
         return run_logged([simulator, "--lint-only", "--Wall", *rtl,
                            "--top-module", "axi4lite_timer"], build / "lint.log")
-    command = [simulator, "--binary", "--timing", "--assert", "--trace-fst", "--timescale", "1ns/1ps",
+    result_file = build / "result.json"
+    waveform = build / "timer.vcd"
+    waveform.unlink(missing_ok=True)
+    result = {"passed": False, "seed": args.seed, "stage": "preflight"}
+    result_file.write_text(json.dumps(result, indent=2) + "\n")
+    code = run_logged([simulator, "--version"], build / "versions.log", timeout=20)
+    if code:
+        result["exit_status"] = code
+        result_file.write_text(json.dumps(result, indent=2) + "\n")
+        return code
+    result["stage"] = "compile"
+    result_file.write_text(json.dumps(result, indent=2) + "\n")
+    command = [simulator, "--binary", "--timing", "--assert", "--trace-vcd",
+               "--timescale", "1ns/1ps",
                "-j", str(args.jobs), *rtl, "tb/axi_if.sv", "tb/axi_assertions.sv",
                "tests/rtl/timer_tb.sv",
                "--top-module", "timer_tb", "--Mdir", str(build / "obj")]
     code = run_logged(command, build / "compile.log", timeout=600)
     if code:
+        result["exit_status"] = code
+        result_file.write_text(json.dumps(result, indent=2) + "\n")
         return code
     command = [str(build / "obj/Vtimer_tb"), f"+verilator+seed+{args.seed}",
-               f"+SEED={args.seed}", f"+WAVE={build / 'timer.fst'}"]
+               f"+SEED={args.seed}", f"+WAVE={build / 'timer.vcd'}"]
     code = run_logged(command, build / "run.log", timeout=60)
     output = (build / "run.log").read_text()
     print(output)
     match = re.search(r"^RTL RESULT PASS seed=(\d+) groups=(\d+) checks=(\d+) "
                       r"writes=(\d+) reads=(\d+)$", output, re.MULTILINE)
-    passed = code == 0 and match is not None and int(match[1]) == args.seed
+    passed = (code == 0 and match is not None and int(match[1]) == args.seed
+              and waveform.is_file() and waveform.stat().st_size > 0)
     result = {"passed": passed, "seed": args.seed, "exit_status": code,
-              "waveform": str((build / "timer.fst").relative_to(ROOT))}
+              "stage": "complete",
+              "waveform": str(waveform.relative_to(ROOT))}
     if match:
         result.update(zip(("groups", "checks", "writes", "reads"),
                           map(int, match.groups()[1:])))
-    (build / "result.json").write_text(json.dumps(result, indent=2) + "\n")
+    stalls = re.search(r"^STALLS aw=(\d+) w=(\d+) ar=(\d+) b=(\d+) r=(\d+)$",
+                       output, re.MULTILINE)
+    if stalls:
+        result["stalled_cycles"] = dict(zip(("aw", "w", "ar", "b", "r"),
+                                           map(int, stalls.groups())))
+    result_file.write_text(json.dumps(result, indent=2) + "\n")
     return 0 if passed else 1
 
 
